@@ -1,4 +1,6 @@
-public class Reservation
+package RestaurantRegister;
+
+public class Reservation // implements IReservation
 {
 
 }

@@ -1,4 +1,6 @@
-public class Restaurant
+package RestaurantRegister;
+
+public class Restaurant // implements IRestaurant
 {
     
 }

@@ -1,4 +1,6 @@
-public class User
+package RestaurantRegister;
+
+public class User // implements IUser
 {
 
 }
