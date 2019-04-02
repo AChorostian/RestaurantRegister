@@ -10,7 +10,6 @@ public interface IUser
     String getPhone();
     List<IReservation> getReservationsList();
 
-    void setId(int id);
     void setFullName(String fullName);
     void setEMail(String eMail);
     void setPhone(String phone);
