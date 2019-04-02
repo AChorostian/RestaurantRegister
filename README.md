@@ -1,12 +1,13 @@
 # Restaurant Register
 
-project created by GitHub Classroom
+Project for Java testing classes at the University of Gdansk.
+Created by GitHub Classroom.
 
 ## Travis
 
 https://travis-ci.com/testowanieaplikacjijavaug/projekt1-AChorostian
 
-## Subject
+## Subject (in Polish)
 
 Program realizujący prostą wersję systemu rezerwacji stolika w restauracji.
 
