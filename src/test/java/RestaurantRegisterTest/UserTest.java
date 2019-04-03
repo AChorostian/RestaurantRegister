@@ -171,10 +171,52 @@ class UserEMailTest
     {
         assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy( ()-> user.setEMail(eMail) );
     }
-
 }
 
+class UserPhoneTest
+{
+    private User user;
 
+    @BeforeEach
+    public void setUp()
+    {
+        user = new User("Jan Kowalski" , "jkowalski@gmail.com","123456789");
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = { // 9 lub 11 cyfr / dozwolone spacje, plusy, myslniki, nawiasy
+            "(58) 234 43 23",
+            "123-456-789",
+            "+48543857694",
+            "(+48) 343-324-345",
+            "123445656",
+            "586769(4)85",
+            "48373+234+234",
+            "1-2-3-4-5-6-7-8-9"
+    })
+    public void correctPhoneTest(String phone)
+    {
+        user.setPhone(phone);
+        assertThat(user.getPhone()).isEqualTo(phone);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "123.231.353",
+            "12",
+            "",
+            "1241244213",
+            "312*23452*6",
+            "214512512163263632",
+            "fsfsd325325234",
+            "42124-=124"
+    })
+    public void incorrectPhoneTest(String phone)
+    {
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy( ()-> user.setPhone(phone) );
+    }
+
+}
 
 
 
