@@ -46,20 +46,26 @@ public class User implements IUser
 
     public void setFullName(String fullName)
     {
-        // todo: exceptions
-        this.fullName = fullName;
+        if (fullName.matches("([a-z]|[A-Z]|[ĄąĆćĘęŁłŃńÓóŚśŹźŻż]| |-)+"))
+            this.fullName = fullName;
+        else
+            throw new IllegalArgumentException();
     }
 
     public void setEMail(String eMail)
     {
-        // todo: exceptions
-        this.eMail = eMail;
+        if (eMail.matches("^[a-zA-Z0-9_]+[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]*@[a-zA-Z0-9.-]+[.][a-zA-Z0-9]+$"))
+            this.eMail = eMail;
+        else
+            throw new IllegalArgumentException();
     }
 
     public void setPhone(String phone)
     {
-        // todo: exceptions
-        this.phone = phone;
+        if (phone.matches("^(([\\s-+()]*\\d[\\s-+()]*){9})|(([\\s-+()]*\\d[\\s-+()]*){11})$"))
+            this.phone = phone;
+        else
+            throw new IllegalArgumentException();
     }
 
     public void addReservation(IReservation reservation)
