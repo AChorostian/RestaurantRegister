@@ -2,11 +2,14 @@ package RestaurantRegisterTest;
 import RestaurantRegister.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +88,32 @@ class UserIdTest
     }
 }
 
+class UserFullNameTest
+{
+    private User user;
 
+    @BeforeEach
+    public void setUp()
+    {
+        user = new User("Jan Kowalski" , "jkowalski@gmail.com","123456789");
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"Jan Kowalski", "Jan Nowak", "Tomasz", "Imionasą-różne", "Nazwiska mogą mieć kilka członów"})
+    public void correctFullNameTest(String newName)
+    {
+        user.setFullName(newName);
+        assertThat(user.getFullName()).isEqualTo(newName);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"", "214", "Tomasz2", "Znaki+", "*&Specjalne","'"})
+    public void incorrectFullNameTest(String newName)
+    {
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy( ()-> user.setFullName(newName) );
+    }
+
+}
 
 
 
