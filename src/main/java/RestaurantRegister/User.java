@@ -15,7 +15,11 @@ public class User implements IUser
 
     public User(String fullName, String eMail, String phone)
     {
-        // todo: exceptions
+        if (!fullName.matches("([a-z]|[A-Z]|[ĄąĆćĘęŁłŃńÓóŚśŹźŻż]| |-)+") ||
+            !eMail.matches("^[a-zA-Z0-9_]+[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]*@[a-zA-Z0-9.-]+[.][a-zA-Z0-9]+$") ||
+            !phone.matches("^(([\\s-+()]*\\d[\\s-+()]*){9})|(([\\s-+()]*\\d[\\s-+()]*){11})$"))
+                throw new IllegalArgumentException();
+
         this.fullName = fullName;
         this.eMail = eMail;
         this.phone = phone;
