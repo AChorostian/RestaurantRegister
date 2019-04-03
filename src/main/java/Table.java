@@ -34,7 +34,7 @@ public class Table implements ITable
 
     public void setSeats(int seats)
     {
-        // todo: exceptions
+        if (seats < 1) throw new IllegalArgumentException();
         this.seats = seats;
     }
 
