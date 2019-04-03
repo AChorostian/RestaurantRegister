@@ -1,5 +1,3 @@
-package RestaurantRegister;
-
 import java.time.LocalTime;
 import java.util.List;
 

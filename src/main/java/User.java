@@ -1,5 +1,3 @@
-package RestaurantRegister;
-
 import java.util.ArrayList;
 import java.util.List;
 

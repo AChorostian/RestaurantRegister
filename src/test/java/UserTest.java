@@ -1,10 +1,6 @@
-package RestaurantRegisterTest;
-import RestaurantRegister.*;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -77,7 +73,7 @@ class UserIdTest
     }
 
     @Test
-    public void growingIdTest()
+    public void increasingIdTest()
     {
         assertThat(users).extracting(IUser::getId).containsOnly(0,1,2,3);
     }

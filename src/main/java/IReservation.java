@@ -1,5 +1,3 @@
-package RestaurantRegister;
-
 import java.time.*;
 
 public interface IReservation
