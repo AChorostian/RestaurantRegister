@@ -75,6 +75,7 @@ public class User implements IUser
         // todo: exceptions
         reservationsList.add(reservation);
     }
+
     public void deleteReservation(IReservation reservation)
     {
         // todo: exceptions

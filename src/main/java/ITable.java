@@ -3,11 +3,10 @@ import java.util.List;
 public interface ITable
 {
     int getId();
-    int getPersonsNumber();
+    int getSeats();
     List<IReservation> getReservationsList();
 
-    void setId(int id);
-    void setPersonsNumber(int personsNumber);
+    void setSeats(int seats);
     void addReservation(IReservation reservation);
     void deleteReservation(IReservation reservation);
 }
