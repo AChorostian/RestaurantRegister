@@ -39,6 +39,11 @@ public class User implements IUser
     public List<IReservation> getReservationsList()
     { return reservationsList; }
 
+    public static void resetIdCounter()
+    {
+        idCounter = 0;
+    }
+
     public void setFullName(String fullName)
     {
         // todo: exceptions

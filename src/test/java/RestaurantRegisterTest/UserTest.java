@@ -62,6 +62,7 @@ class UserIdTest
     @BeforeAll
     public static void setUp()
     {
+        User.resetIdCounter();
         users = new ArrayList<>();
         users.add( new User("Jan Kowalski" , "jkowalski@gmail.com","123-543-678"));
         users.add( new User("Jan Nowak" , "jnowak@gmail.com","432623342"));
@@ -99,7 +100,7 @@ class UserFullNameTest
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"Jan Kowalski", "Jan Nowak", "Tomasz", "Imionasą-różne", "Nazwiska mogą mieć kilka członów"})
+    @ValueSource(strings = {"Jan Kowalski", "bezimienny", "Imiona-są-różne", "Nazwiska mogą mieć kilka członów"})
     public void correctFullNameTest(String newName)
     {
         user.setFullName(newName);
@@ -115,7 +116,63 @@ class UserFullNameTest
 
 }
 
+class UserEMailTest
+{
+    private User user;
 
+    @BeforeEach
+    public void setUp()
+    {
+        user = new User("Jan Kowalski" , "jkowalski@gmail.com","123456789");
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "email@domain.com",
+            "firstname.lastname@domain.com",
+            "email@subdomain.domain.com",
+            "firstname+lastname@domain.com",
+            "email@123.123.123.123",
+            "email@[123.123.123.123]",
+            "\"email\"@domain.com",
+            "1234567890@domain.com",
+            "email@domain-one.com",
+            "_______@domain.com",
+            "email@domain.name",
+            "email@domain.co.jp",
+            "firstname-lastname@domain.com"
+    })
+    public void correctEMailTest(String eMail)
+    {
+        user.setEMail(eMail);
+        assertThat(user.getEMail()).isEqualTo(eMail);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "plainaddress",
+            "#@%^%#$@#$@#.com",
+            "@domain.com",
+            "Joe Smith <email@domain.com>",
+            "email.domain.com",
+            "email@domain@domain.com",
+            ".email@domain.com",
+            "email.@domain.com",
+            "email..email@domain.com",
+            "あいうえお@domain.com",
+            "email@domain.com (Joe Smith)",
+            "email@domain",
+            "email@-domain.com",
+            "email@domain.web",
+            "email@111.222.333.44444",
+            "email@domain..com"
+    })
+    public void incorrectEMailTest(String eMail)
+    {
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy( ()-> user.setEMail(eMail) );
+    }
+
+}
 
 
 
