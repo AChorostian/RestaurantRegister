@@ -11,7 +11,7 @@ public class Table implements ITable
 
     public Table(int seats)
     {
-        // todo: exceptions
+        if (seats < 1) throw new IllegalArgumentException();
         this.seats = seats;
 
         this.id = idCounter++;
