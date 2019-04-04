@@ -13,8 +13,8 @@ public interface IRestaurant
 
     void setName(String name);
     void setAddress(String address);
-    void setStartTime();
-    void setEndTime();
+    void setStartTime(LocalTime startTime);
+    void setEndTime(LocalTime endTime);
 
     void addTable(ITable table);
     void deleteTable(ITable table);

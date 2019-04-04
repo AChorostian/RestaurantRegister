@@ -28,9 +28,7 @@ public class Table implements ITable
     { return reservations; }
 
     public static void resetIdCounter()
-    {
-        idCounter = 0;
-    }
+    { idCounter = 0; }
 
     public void setSeats(int seats)
     {
