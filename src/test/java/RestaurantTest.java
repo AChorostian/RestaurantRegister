@@ -10,6 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.time.DateTimeException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -182,7 +183,7 @@ class RestaurantStartTimeTest
     @CsvSource({"10,12","-13,30","14,-15","14,51","15,01","19,4","20,3","21,00","24,5"})
     public void incorrectStartTimeTest(int hour, int minute)
     {
-        assertThrows(IllegalArgumentException.class, ()-> restaurant.setStartTime(LocalTime.of(hour, minute)));
+        assertThrows(DateTimeException.class, ()-> restaurant.setStartTime(LocalTime.of(hour, minute)));
 
     }
 
@@ -212,7 +213,7 @@ class RestaurantEndTimeTest
     @CsvSource({"10,12","15,01","20,3","9,4","24,5","9,51","8,00","-13,30","17,-15"})
     public void incorrectEndTimeTest(int hour, int minute)
     {
-        assertThrows(IllegalArgumentException.class, ()-> restaurant.setEndTime(LocalTime.of(hour, minute)));
+        assertThrows( DateTimeException.class, ()-> restaurant.setEndTime(LocalTime.of(hour, minute)));
     }
 
 }

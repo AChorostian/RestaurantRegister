@@ -1,3 +1,4 @@
+import java.time.DateTimeException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,26 +54,38 @@ public class Restaurant implements IRestaurant
 
     public void setName(String name)
     {
-        // todo: exceptions
-        this.name = name;
+        if (name.length()==0 || name.length()>50)
+            throw new IllegalArgumentException();
+        else
+            this.name = name;
     }
 
     public void setAddress(String address)
     {
-        // todo: exceptions
-        this.address = address;
+        if (address.length()==0 || address.length()>100)
+            throw new IllegalArgumentException();
+        else
+            this.address = address;
     }
 
-    public void setStartTime(LocalTime startTime)
+    public void setStartTime(LocalTime startTime) throws DateTimeException
     {
-        // todo: exceptions
-        this.startTime = startTime;
+        if (startTime.isAfter(endTime))
+            throw new DateTimeException("Start time should be earlier than end time");
+        if (startTime.getMinute()%15 != 0)
+            throw new DateTimeException("Number of minutes should be a multiple of 15");
+        else
+            this.startTime = startTime;
     }
 
-    public void setEndTime(LocalTime endTime)
+    public void setEndTime(LocalTime endTime) throws DateTimeException
     {
-        // todo: exceptions
-        this.endTime = endTime;
+        if (endTime.isBefore(startTime))
+            throw new DateTimeException("End time should be later than start time");
+        if (endTime.getMinute()%15 != 0)
+            throw new DateTimeException("Number of minutes should be a multiple of 15");
+        else
+            this.endTime = endTime;
     }
 
     public void addTable(ITable table)
