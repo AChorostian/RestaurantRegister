@@ -20,7 +20,7 @@ class NewTableTest
     @BeforeEach
     public void setUp()
     {
-        table = new Table(5);
+        table = new Table("nr. 5",5);
     }
 
     @Test
@@ -51,10 +51,10 @@ class TableIdTest
     {
         Table.resetIdCounter();
         tables = new ArrayList<>();
-        tables.add( new Table(7));
-        tables.add( new Table(2));
-        tables.add( new Table(4));
-        tables.add( new Table(4));
+        tables.add( new Table("nr. 1",5));
+        tables.add( new Table("nr. 2",5));
+        tables.add( new Table("nr. 3",5));
+        tables.add( new Table("VIP",5));
     }
 
     @Test
@@ -78,7 +78,7 @@ class TableSeatsTest
     @BeforeEach
     public void setUp()
     {
-        table = new Table(5);
+        table = new Table("nr. 5",5);
     }
 
     @ParameterizedTest
