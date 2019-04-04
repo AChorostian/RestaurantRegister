@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.time.LocalTime;
@@ -156,3 +157,64 @@ class RestaurantAddressTest
         assertThrows(IllegalArgumentException.class, ()-> restaurant.setAddress(address));
     }
 }
+
+class RestaurantStartTimeTest
+{
+    private Restaurant restaurant;
+
+    @BeforeEach
+    public void setUp()
+    {
+        LocalTime startTime = LocalTime.of(10,0);
+        LocalTime endTime = LocalTime.of(20,0);
+        restaurant = new Restaurant("Sphinx", "Sopot Ul. Matejki 99",startTime,endTime);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"0,00","10,15","15,00","19,30","19,45"})
+    public void correctStartTimeTest(int hour, int minute)
+    {
+        restaurant.setStartTime(LocalTime.of(hour, minute));
+        assertThat(restaurant,hasProperty("startTime",equalTo(LocalTime.of(hour, minute))));
+    }
+
+    @ParameterizedTest
+    @CsvSource({"10,12","-13,30","14,-15","14,51","15,01","19,4","20,3","21,00","24,5"})
+    public void incorrectStartTimeTest(int hour, int minute)
+    {
+        assertThrows(IllegalArgumentException.class, ()-> restaurant.setStartTime(LocalTime.of(hour, minute)));
+
+    }
+
+}
+
+class RestaurantEndTimeTest
+{
+    private Restaurant restaurant;
+
+    @BeforeEach
+    public void setUp()
+    {
+        LocalTime startTime = LocalTime.of(10,0);
+        LocalTime endTime = LocalTime.of(20,0);
+        restaurant = new Restaurant("Sphinx", "Sopot Ul. Matejki 99",startTime,endTime);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"10,15","15,00","19,30","19,45","0,00"})
+    public void correctEndTimeTest(int hour, int minute)
+    {
+        restaurant.setEndTime(LocalTime.of(hour, minute));
+        assertThat(restaurant,hasProperty("endTime",equalTo(LocalTime.of(hour, minute))));
+    }
+
+    @ParameterizedTest
+    @CsvSource({"10,12","15,01","20,3","9,4","24,5","9,51","8,00","-13,30","17,-15"})
+    public void incorrectEndTimeTest(int hour, int minute)
+    {
+        assertThrows(IllegalArgumentException.class, ()-> restaurant.setEndTime(LocalTime.of(hour, minute)));
+    }
+
+}
+
+
