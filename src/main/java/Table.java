@@ -5,7 +5,7 @@ public class Table implements ITable
 {
     private int id;
     private int seats;
-    private List<IReservation> reservationsList;
+    private List<IReservation> reservations;
 
     private static int idCounter=1;
 
@@ -15,7 +15,7 @@ public class Table implements ITable
         this.seats = seats;
 
         this.id = idCounter++;
-        this.reservationsList = new ArrayList<IReservation>() {};
+        this.reservations = new ArrayList<IReservation>() {};
     }
 
     public int getId()
@@ -24,8 +24,8 @@ public class Table implements ITable
     public int getSeats()
     { return seats; }
 
-    public List<IReservation> getReservationsList()
-    { return reservationsList; }
+    public List<IReservation> getReservations()
+    { return reservations; }
 
     public static void resetIdCounter()
     {
@@ -41,12 +41,12 @@ public class Table implements ITable
     public void addReservation(IReservation reservation)
     {
         // todo: exceptions
-        reservationsList.add(reservation);
+        reservations.add(reservation);
     }
 
     public void deleteReservation(IReservation reservation)
     {
         // todo: exceptions
-        reservationsList.remove(reservation);
+        reservations.remove(reservation);
     }
 }

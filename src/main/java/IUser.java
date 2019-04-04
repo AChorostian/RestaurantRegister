@@ -6,7 +6,7 @@ public interface IUser
     String getFullName();
     String getEMail();
     String getPhone();
-    List<IReservation> getReservationsList();
+    List<IReservation> getReservations();
 
     void setFullName(String fullName);
     void setEMail(String eMail);

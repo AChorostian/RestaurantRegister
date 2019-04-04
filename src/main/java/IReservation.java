@@ -10,7 +10,6 @@ public interface IReservation
     IUser getUser();
     ITable getTable();
 
-    void setId(int id);
     void setPersonsNumber(int personsNumber);
     void setStartTime(LocalTime startTime);
     void setEndTime(LocalTime endTime);

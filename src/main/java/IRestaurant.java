@@ -8,10 +8,9 @@ public interface IRestaurant
     String getAddress();
     LocalTime getStartTime();
     LocalTime getEndTime();
-    List<ITable> getTablesList();
-    List<IUser> getUsersList();
+    List<ITable> getTables();
+    List<IUser> getUsers();
 
-    void setId(int id);
     void setName(String name);
     void setAddress(String address);
     void setStartTime();

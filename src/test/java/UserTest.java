@@ -45,9 +45,9 @@ class NewUserTest
     }
 
     @Test
-    public void reservationListTest()
+    public void reservationsTest()
     {
-        assertThat(user.getReservationsList()).isInstanceOf(List.class).hasSize(0);
+        assertThat(user.getReservations()).isInstanceOf(List.class).hasSize(0);
     }
 }
 

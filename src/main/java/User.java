@@ -7,7 +7,7 @@ public class User implements IUser
     private String fullName;
     private String eMail;
     private String phone;
-    private List<IReservation> reservationsList;
+    private List<IReservation> reservations;
 
     private static int idCounter=0;
 
@@ -23,7 +23,7 @@ public class User implements IUser
         this.phone = phone;
 
         this.id = idCounter++;
-        this.reservationsList = new ArrayList<IReservation>() {};
+        this.reservations = new ArrayList<IReservation>() {};
     }
 
     public int getId()
@@ -38,8 +38,8 @@ public class User implements IUser
     public String getPhone()
     { return phone; }
 
-    public List<IReservation> getReservationsList()
-    { return reservationsList; }
+    public List<IReservation> getReservations()
+    { return reservations; }
 
     public static void resetIdCounter()
     {
@@ -73,12 +73,12 @@ public class User implements IUser
     public void addReservation(IReservation reservation)
     {
         // todo: exceptions
-        reservationsList.add(reservation);
+        reservations.add(reservation);
     }
 
     public void deleteReservation(IReservation reservation)
     {
         // todo: exceptions
-        reservationsList.remove(reservation);
+        reservations.remove(reservation);
     }
 }

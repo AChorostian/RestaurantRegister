@@ -36,9 +36,9 @@ class NewTableTest
     }
 
     @Test
-    public void reservationListTest()
+    public void reservationsTest()
     {
-        assertThat(table.getReservationsList(),allOf(isA(List.class),hasSize(0)));
+        assertThat(table.getReservations(),allOf(isA(List.class),hasSize(0)));
     }
 }
 
