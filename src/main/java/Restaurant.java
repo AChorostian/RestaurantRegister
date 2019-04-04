@@ -16,6 +16,7 @@ public class Restaurant implements IRestaurant
 
     public Restaurant(String name, String address, LocalTime startTime, LocalTime endTime)
     {
+        // todo: exceptions
         this.name = name;
         this.address = address;
         this.startTime = startTime;
