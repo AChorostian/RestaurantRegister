@@ -45,11 +45,13 @@ class NewTableTest
 class TableIdTest
 {
     private static List<ITable> tables;
+    private static int beforeIdCounter;
 
     @BeforeAll
     public static void setUp()
     {
         Table.resetIdCounter();
+        beforeIdCounter = Table.getIdCounter();
         tables = new ArrayList<>();
         tables.add( new Table("nr. 1",5));
         tables.add( new Table("nr. 2",5));
@@ -69,6 +71,11 @@ class TableIdTest
         assertThat(tables, hasItems(hasProperty("id",in(Arrays.asList(0,1,2,3)))));
     }
 
+    @Test
+    public void changingIdCounterTest()
+    {
+        assertThat(Table.getIdCounter(),equalTo(beforeIdCounter+4));
+    }
 }
 
 class TableSeatsTest

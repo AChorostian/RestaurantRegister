@@ -58,6 +58,7 @@ class NewUserTest
 class UserIdTest
 {
     private static List<IUser> users;
+    private static int beforeIdCounter;
 
     @BeforeAll
     public static void setUp()
@@ -67,10 +68,17 @@ class UserIdTest
         Restaurant restaurant = new Restaurant("Stacja","Gdańsk Al. Grunwaldzka 111",startTime,endTime);
         User.resetIdCounter();
         users = new ArrayList<>();
+        beforeIdCounter = User.getIdCounter();
         users.add( new User("Jan Kowalski" , "jkowalski@gmail.com","123-543-678",restaurant));
         users.add( new User("Jan Nowak" , "jnowak@gmail.com","432623342",restaurant));
         users.add( new User("Tomasz Nowak" , "tnowak@gmail.com","+48386746251",restaurant));
         users.add( new User("Katarzyna Nowak" , "knowak@gmail.com","+48 386 746 251",restaurant));
+    }
+
+    @Test
+    public void changingIdCounterTest()
+    {
+        assertThat(User.getIdCounter()).isEqualTo(beforeIdCounter+4);
     }
 
     @Test

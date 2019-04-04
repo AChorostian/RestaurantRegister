@@ -50,6 +50,9 @@ public class Restaurant implements IRestaurant
     public List<IUser> getUsers()
     { return users; }
 
+    public static int getIdCounter()
+    { return idCounter; }
+
     public static void resetIdCounter()
     { idCounter = 0; }
 

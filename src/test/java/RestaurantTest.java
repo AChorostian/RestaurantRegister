@@ -75,11 +75,13 @@ class NewRestaurantTest
 class RestaurantIdTest
 {
     private static List<IRestaurant> restaurants;
+    private static int beforeIdCounter;
 
     @BeforeAll
     public static void setUp()
     {
         Restaurant.resetIdCounter();
+        beforeIdCounter = Restaurant.getIdCounter();
         LocalTime startTime = LocalTime.of(10,0);
         LocalTime endTime = LocalTime.of(20,0);
         restaurants = new ArrayList<>();
@@ -99,6 +101,12 @@ class RestaurantIdTest
     public void increasingIdTest()
     {
         assertThat(restaurants, hasItems(hasProperty("id",in(Arrays.asList(0,1,2,3)))));
+    }
+
+    @Test
+    public void changingIdCounterTest()
+    {
+        assertThat(Restaurant.getIdCounter(),equalTo(beforeIdCounter+4));
     }
 }
 
