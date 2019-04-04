@@ -7,11 +7,13 @@ public class User implements IUser
     private String fullName;
     private String eMail;
     private String phone;
+
+    private IRestaurant restaurant;
     private List<IReservation> reservations;
 
     private static int idCounter=0;
 
-    public User(String fullName, String eMail, String phone)
+    public User(String fullName, String eMail, String phone, Restaurant restaurant)
     {
         if (!fullName.matches("([a-z]|[A-Z]|[ĄąĆćĘęŁłŃńÓóŚśŹźŻż]| |-)+") ||
             !eMail.matches("^[a-zA-Z0-9_]+[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]*@[a-zA-Z0-9.-]+[.][a-zA-Z0-9]+$") ||
@@ -23,6 +25,7 @@ public class User implements IUser
         this.phone = phone;
 
         this.id = idCounter++;
+        this.restaurant = restaurant;
         this.reservations = new ArrayList<IReservation>() {};
     }
 
@@ -38,13 +41,17 @@ public class User implements IUser
     public String getPhone()
     { return phone; }
 
+    public IRestaurant getRestaurant()
+    { return restaurant; }
+
     public List<IReservation> getReservations()
     { return reservations; }
 
+    public static int getIdCounter()
+    { return idCounter; }
+
     public static void resetIdCounter()
-    {
-        idCounter = 0;
-    }
+    { idCounter = 0; }
 
     public void setFullName(String fullName)
     {

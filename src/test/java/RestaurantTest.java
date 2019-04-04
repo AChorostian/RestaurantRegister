@@ -202,7 +202,7 @@ class RestaurantEndTimeTest
     }
 
     @ParameterizedTest
-    @CsvSource({"10,15","15,00","19,30","19,45","0,00"})
+    @CsvSource({"10,15","15,00","19,30","19,45","23,45"})
     public void correctEndTimeTest(int hour, int minute)
     {
         restaurant.setEndTime(LocalTime.of(hour, minute));

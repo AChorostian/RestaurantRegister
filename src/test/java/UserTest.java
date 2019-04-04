@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,10 @@ class NewUserTest
     @BeforeEach
     public void setUp()
     {
-        user = new User("Jan Kowalski" , "jkowalski@gmail.com","123-543-678");
+        LocalTime startTime = LocalTime.of(10,0);
+        LocalTime endTime = LocalTime.of(20,0);
+        Restaurant restaurant = new Restaurant("Stacja","Gdańsk Al. Grunwaldzka 111",startTime,endTime);
+        user = new User("Jan Kowalski" , "jkowalski@gmail.com","123-543-678",restaurant);
     }
 
     @Test
@@ -58,12 +62,15 @@ class UserIdTest
     @BeforeAll
     public static void setUp()
     {
+        LocalTime startTime = LocalTime.of(10,0);
+        LocalTime endTime = LocalTime.of(20,0);
+        Restaurant restaurant = new Restaurant("Stacja","Gdańsk Al. Grunwaldzka 111",startTime,endTime);
         User.resetIdCounter();
         users = new ArrayList<>();
-        users.add( new User("Jan Kowalski" , "jkowalski@gmail.com","123-543-678"));
-        users.add( new User("Jan Nowak" , "jnowak@gmail.com","432623342"));
-        users.add( new User("Tomasz Nowak" , "tnowak@gmail.com","+48386746251"));
-        users.add( new User("Katarzyna Nowak" , "knowak@gmail.com","+48 386 746 251"));
+        users.add( new User("Jan Kowalski" , "jkowalski@gmail.com","123-543-678",restaurant));
+        users.add( new User("Jan Nowak" , "jnowak@gmail.com","432623342",restaurant));
+        users.add( new User("Tomasz Nowak" , "tnowak@gmail.com","+48386746251",restaurant));
+        users.add( new User("Katarzyna Nowak" , "knowak@gmail.com","+48 386 746 251",restaurant));
     }
 
     @Test
@@ -92,7 +99,10 @@ class UserFullNameTest
     @BeforeEach
     public void setUp()
     {
-        user = new User("Jan Kowalski" , "jkowalski@gmail.com","123456789");
+        LocalTime startTime = LocalTime.of(10,0);
+        LocalTime endTime = LocalTime.of(20,0);
+        Restaurant restaurant = new Restaurant("Stacja","Gdańsk Al. Grunwaldzka 111",startTime,endTime);
+        user = new User("Jan Kowalski" , "jkowalski@gmail.com","123456789",restaurant);
     }
 
     @ParameterizedTest
@@ -119,7 +129,10 @@ class UserEMailTest
     @BeforeEach
     public void setUp()
     {
-        user = new User("Jan Kowalski" , "jkowalski@gmail.com","123456789");
+        LocalTime startTime = LocalTime.of(10,0);
+        LocalTime endTime = LocalTime.of(20,0);
+        Restaurant restaurant = new Restaurant("Stacja","Gdańsk Al. Grunwaldzka 111",startTime,endTime);
+        user = new User("Jan Kowalski" , "jkowalski@gmail.com","123456789",restaurant);
     }
 
     @ParameterizedTest
@@ -168,7 +181,10 @@ class UserPhoneTest
     @BeforeEach
     public void setUp()
     {
-        user = new User("Jan Kowalski" , "jkowalski@gmail.com","123456789");
+        LocalTime startTime = LocalTime.of(10,0);
+        LocalTime endTime = LocalTime.of(20,0);
+        Restaurant restaurant = new Restaurant("Stacja","Gdańsk Al. Grunwaldzka 111",startTime,endTime);
+        user = new User("Jan Kowalski" , "jkowalski@gmail.com","123456789",restaurant);
     }
 
     @ParameterizedTest
@@ -203,7 +219,6 @@ class UserPhoneTest
     {
         assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy( ()-> user.setPhone(phone) );
     }
-
 }
 
 

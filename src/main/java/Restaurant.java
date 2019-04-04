@@ -10,6 +10,7 @@ public class Restaurant implements IRestaurant
     private String address;
     private LocalTime startTime;
     private LocalTime endTime;
+
     private List<ITable> tables;
     private List<IUser> users;
 
@@ -97,6 +98,7 @@ public class Restaurant implements IRestaurant
     public void deleteTable(ITable table)
     {
         // todo: exceptions
+        // should also remove table object and all connected reservations
         tables.remove(table);
     }
 
@@ -109,6 +111,7 @@ public class Restaurant implements IRestaurant
     public void deleteUser(IUser user)
     {
         // todo: exceptions
+        // should also remove user object and all connected reservations
         users.remove(user);
     }
 
