@@ -20,6 +20,8 @@ public class Table implements ITable
 
         this.id = idCounter++;
         this.reservations = new ArrayList<IReservation>() {};
+
+        //todo: auto add to list in restaurant
     }
 
     public int getId()
