@@ -142,3 +142,8 @@ class TableSeatsTest
         assertThrows(IllegalArgumentException.class, ()-> table.setSeats(seats));
     }
 }
+
+class TableRelationsTest
+{
+    // todo: check creating reservations
+}

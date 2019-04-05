@@ -229,7 +229,10 @@ class UserPhoneTest
     }
 }
 
-
+class UserRelationsTest
+{
+    // todo: check creating reservations
+}
 
 
 

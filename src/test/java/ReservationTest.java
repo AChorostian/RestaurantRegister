@@ -259,5 +259,21 @@ class ReservationTimeTest
             Reservation duplicateReservation = new Reservation(3,startTime,endTime, LocalDate.now().plusDays(5),user,table);
         } );
     }
+}
+
+class ReservationSeatsTest
+{
 
 }
+
+class ReservationDateTest
+{
+
+}
+
+class ReservationEmailConfirmationTest
+{
+
+}
+
+class R

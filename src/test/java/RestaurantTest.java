@@ -280,3 +280,13 @@ class RestaurantRelationsTest
     }
 
 }
+
+class csvOperationsTest
+{
+    // todo: test load, save
+}
+
+class RestaurantStatisticsTest
+{
+    // todo: test 5 methods
+}
