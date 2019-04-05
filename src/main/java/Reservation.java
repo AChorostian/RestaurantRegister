@@ -64,15 +64,30 @@ public class Reservation implements IReservation
 
     public void setStartTime(LocalTime startTime)
     {
+        if (endTime!=null)
+        {
+            if (startTime.isAfter(endTime))
+                throw new DateTimeException("Start time should be earlier than end time");
+            if (startTime.equals(endTime))
+                throw new DateTimeException("Start time should be earlier than end time");
+        }
         if (startTime.getMinute()%15 != 0)
             throw new DateTimeException("Number of minutes should be a multiple of 15");
+        if (startTime.isBefore(this.table.getRestaurant().getStartTime()))
+            throw new DateTimeException("Reservation can not start before restaurant opening");
+
         this.startTime = startTime;
     }
 
     public void setEndTime(LocalTime endTime)
     {
+        if (startTime!=null)
+            if (endTime.isBefore(startTime) || endTime.equals(startTime))
+                throw new DateTimeException("End time should be later than start time");
         if (endTime.getMinute()%15 != 0)
             throw new DateTimeException("Number of minutes should be a multiple of 15");
+        if (endTime.isAfter(this.table.getRestaurant().getEndTime()))
+            throw new DateTimeException("Reservation can not end after restaurant closing");
         this.endTime = endTime;
     }
 

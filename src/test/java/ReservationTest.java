@@ -152,8 +152,10 @@ class ReservationTimeTest
     @CsvSource({"10,15,19,45","15,00,15,15","19,45,20,00","10,00,20,00"})
     public void correctReservingTimeInOpenHoursTest(int startHour, int startMinute, int endHour, int endMinute)
     {
-        reservation.setStartTime(LocalTime.of(startHour,startMinute));
-        reservation.setEndTime(LocalTime.of(endHour,endMinute));
+        LocalTime startTime = LocalTime.of(startHour,startMinute);
+        LocalTime endTime = LocalTime.of(endHour,endMinute);
+        reservation = new Reservation(3,startTime,endTime, LocalDate.now().plusDays(5),user,table);
+
         assertAll(
                 ()-> assertThat(reservation.getStartTime()).isEqualTo(LocalTime.of(startHour,startMinute)),
                 ()-> assertThat(reservation.getEndTime()).isEqualTo(LocalTime.of(endHour,endMinute))
@@ -161,7 +163,7 @@ class ReservationTimeTest
     }
 
     @ParameterizedTest
-    @CsvSource({"13,11,19,45","15,0,15,19"})
+    @CsvSource({"13,11,19,45","15,0,15,19","12,30,10,00"})
     public void incorrectTimeFormatTest(int startHour, int startMinute, int endHour, int endMinute)
     {
         assertThatExceptionOfType(DateTimeException.class).isThrownBy(()-> {
