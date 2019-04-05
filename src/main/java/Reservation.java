@@ -1,3 +1,4 @@
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -16,18 +17,15 @@ public class Reservation implements IReservation
 
     public Reservation(int seats,LocalTime startTime, LocalTime endTime, LocalDate date, IUser user, ITable table)
     {
-        //todo: exceptions
+        this.table = table;
+        this.user = user;
 
-        this.seats = seats;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.date = date;
+        setSeats(seats);
+        setStartTime(startTime);
+        setEndTime(endTime);
+        setDate(date);
 
         this.id = idCounter++;
-        this.user = user;
-        this.table = table;
-
-        //todo: auto add to lists in User and Table
     }
 
     public int getId()
@@ -59,22 +57,29 @@ public class Reservation implements IReservation
 
     public void setSeats(int seats)
     {
-        //todo: exceptions
+        if (seats<1 || seats>table.getSeats())
+            throw new IllegalArgumentException();
+        this.seats = seats;
     }
 
     public void setStartTime(LocalTime startTime)
     {
-        //todo: exceptions
+        if (startTime.getMinute()%15 != 0)
+            throw new DateTimeException("Number of minutes should be a multiple of 15");
+        this.startTime = startTime;
     }
 
     public void setEndTime(LocalTime endTime)
     {
-        //todo: exceptions
+        if (endTime.getMinute()%15 != 0)
+            throw new DateTimeException("Number of minutes should be a multiple of 15");
+        this.endTime = endTime;
     }
 
     public void setDate(LocalDate date)
     {
         //todo: exceptions
+        this.date = date;
     }
 
     public void sendEmailConfirmation()

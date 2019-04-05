@@ -18,11 +18,10 @@ public class Restaurant implements IRestaurant
 
     public Restaurant(String name, String address, LocalTime startTime, LocalTime endTime)
     {
-        // todo: exceptions
-        this.name = name;
-        this.address = address;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        setName(name);
+        setAddress(address);
+        setStartTime(startTime);
+        setEndTime(endTime);
 
         this.id = idCounter++;
         this.tables = new ArrayList<ITable>() {};
@@ -74,8 +73,9 @@ public class Restaurant implements IRestaurant
 
     public void setStartTime(LocalTime startTime) throws DateTimeException
     {
-        if (startTime.isAfter(endTime) || startTime.equals(endTime))
-            throw new DateTimeException("Start time should be earlier than end time");
+        if (endTime!=null)
+            if (startTime.isAfter(endTime) || startTime.equals(endTime))
+                throw new DateTimeException("Start time should be earlier than end time");
         if (startTime.getMinute()%15 != 0)
             throw new DateTimeException("Number of minutes should be a multiple of 15");
         else
@@ -84,8 +84,9 @@ public class Restaurant implements IRestaurant
 
     public void setEndTime(LocalTime endTime) throws DateTimeException
     {
-        if (endTime.isBefore(startTime) || endTime.equals(startTime))
-            throw new DateTimeException("End time should be later than start time");
+        if (startTime!=null)
+            if (endTime.isBefore(startTime) || endTime.equals(startTime))
+                throw new DateTimeException("End time should be later than start time");
         if (endTime.getMinute()%15 != 0)
             throw new DateTimeException("Number of minutes should be a multiple of 15");
         else

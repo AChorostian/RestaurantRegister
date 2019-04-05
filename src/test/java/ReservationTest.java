@@ -285,7 +285,7 @@ class ReservationSeatsTest
         LocalTime endTime = LocalTime.of(16,0);
         Reservation reservation = new Reservation(wantedSeats,startTime,endTime, LocalDate.now().plusDays(5),user,table);
 
-        assertThat(reservation).isNotNull().hasFieldOrPropertyWithValue("wantedSeats",wantedSeats);
+        assertThat(reservation).isNotNull().hasFieldOrPropertyWithValue("seats",wantedSeats);
     }
 
     @ParameterizedTest
@@ -296,7 +296,7 @@ class ReservationSeatsTest
         LocalTime startTime = LocalTime.of(14,0);
         LocalTime endTime = LocalTime.of(16,0);
 
-        assertThatExceptionOfType(DateTimeException.class).isThrownBy(()-> {
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(()-> {
             Reservation reservation = new Reservation(wantedSeats,startTime,endTime, LocalDate.now().plusDays(5),user,table);
         });
     }

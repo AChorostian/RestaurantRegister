@@ -14,11 +14,8 @@ public class Table implements ITable
 
     public Table(String name, int seats, Restaurant restaurant)
     {
-        if (name.length()==0 || name.length()>50 || seats < 1)
-            throw new IllegalArgumentException();
-
-        this.name = name;
-        this.seats = seats;
+        setName(name);
+        setSeats(seats);
 
         this.id = idCounter++;
         this.restaurant = restaurant;
