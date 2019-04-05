@@ -28,7 +28,7 @@ public class User implements IUser
         this.restaurant = restaurant;
         this.reservations = new ArrayList<IReservation>() {};
 
-        //todo: auto add to list in restaurant
+        restaurant.addUser(this);
     }
 
     public int getId()

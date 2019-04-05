@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +21,10 @@ class NewTableTest
     @BeforeEach
     public void setUp()
     {
-        table = new Table("nr. 5",5);
+        LocalTime startTime = LocalTime.of(10,0);
+        LocalTime endTime = LocalTime.of(20,0);
+        Restaurant restaurant = new Restaurant("Sphinx", "Sopot Ul. Matejki 99",startTime,endTime);
+        table = new Table("nr. 5",5,restaurant);
     }
 
     @Test
@@ -50,13 +54,16 @@ class TableIdTest
     @BeforeAll
     public static void setUp()
     {
+        LocalTime startTime = LocalTime.of(10,0);
+        LocalTime endTime = LocalTime.of(20,0);
+        Restaurant restaurant = new Restaurant("Sphinx", "Sopot Ul. Matejki 99",startTime,endTime);
         Table.resetIdCounter();
         beforeIdCounter = Table.getIdCounter();
         tables = new ArrayList<>();
-        tables.add( new Table("nr. 1",5));
-        tables.add( new Table("nr. 2",5));
-        tables.add( new Table("nr. 3",5));
-        tables.add( new Table("VIP",5));
+        tables.add( new Table("nr. 1",5,restaurant));
+        tables.add( new Table("nr. 2",5,restaurant));
+        tables.add( new Table("nr. 3",5,restaurant));
+        tables.add( new Table("VIP",5,restaurant));
     }
 
     @Test
@@ -85,7 +92,10 @@ class TableSeatsTest
     @BeforeEach
     public void setUp()
     {
-        table = new Table("nr. 5",5);
+        LocalTime startTime = LocalTime.of(10,0);
+        LocalTime endTime = LocalTime.of(20,0);
+        Restaurant restaurant = new Restaurant("Sphinx", "Sopot Ul. Matejki 99",startTime,endTime);
+        table = new Table("nr. 5",5,restaurant);
     }
 
     @ParameterizedTest

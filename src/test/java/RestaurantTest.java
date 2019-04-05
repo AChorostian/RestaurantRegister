@@ -268,7 +268,7 @@ class RestaurantRelationsTest
     public void AddingTablesToListTest()
     {
         int beforeAdding = restaurant.getTables().size();
-        Table table = new Table("stolik nr1",5);
+        Table table = new Table("stolik nr1",5,restaurant);
         int afterAdding = restaurant.getTables().size();
         assertAll(
                 ()-> assertThat(beforeAdding,equalTo(afterAdding-1)),
@@ -282,8 +282,8 @@ class RestaurantRelationsTest
     {
         Table.resetIdCounter();
         int beforeAdding = restaurant.getTables().size();
-        Table table1 = new Table("stolik nr1",5);
-        Table table2 = new Table("stolik nr2",7);
+        Table table1 = new Table("stolik nr1",5,restaurant);
+        Table table2 = new Table("stolik nr2",7,restaurant);
         int afterAdding = restaurant.getTables().size();
 
         assertAll(

@@ -12,16 +12,17 @@ public class Table implements ITable
 
     private static int idCounter=1;
 
-    public Table(String name, int seats)
+    public Table(String name, int seats, Restaurant restaurant)
     {
         if (seats < 1) throw new IllegalArgumentException();
         this.name = name;
         this.seats = seats;
 
         this.id = idCounter++;
+        this.restaurant = restaurant;
         this.reservations = new ArrayList<IReservation>() {};
 
-        //todo: auto add to list in restaurant
+        restaurant.addTable(this);
     }
 
     public int getId()
