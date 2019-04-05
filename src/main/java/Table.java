@@ -14,7 +14,9 @@ public class Table implements ITable
 
     public Table(String name, int seats, Restaurant restaurant)
     {
-        if (seats < 1) throw new IllegalArgumentException();
+        if (name.length()==0 || name.length()>50 || seats < 1)
+            throw new IllegalArgumentException();
+
         this.name = name;
         this.seats = seats;
 
@@ -48,7 +50,8 @@ public class Table implements ITable
 
     public void setName(String name)
     {
-        // todo: exceptions
+        if (name.length()==0 || name.length()>50)
+            throw new IllegalArgumentException();
         this.name = name;
     }
 

@@ -85,6 +85,35 @@ class TableIdTest
     }
 }
 
+class TableNameTest
+{
+    private Table table;
+
+    @BeforeEach
+    public void setUp()
+    {
+        LocalTime startTime = LocalTime.of(10,0);
+        LocalTime endTime = LocalTime.of(20,0);
+        Restaurant restaurant = new Restaurant("Sphinx", "Sopot Ul. Matejki 99",startTime,endTime);
+        table = new Table("nr. 5",5,restaurant);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"Nazwa z wielkiej litery","nazwa z małej litery","dowolne znaki _&*_%@","2141241"})
+    public void correctNameTest(String name)
+    {
+        table.setName(name);
+        assertThat(table,hasProperty("name",equalTo(name)));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"","zbyt długi tekst nie powinien być używany w tym miejscu"})
+    public void incorrectNameTest(String name)
+    {
+        assertThrows(IllegalArgumentException.class, ()-> table.setName(name));
+    }
+}
+
 class TableSeatsTest
 {
     private Table table;
