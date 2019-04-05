@@ -74,7 +74,7 @@ public class Restaurant implements IRestaurant
 
     public void setStartTime(LocalTime startTime) throws DateTimeException
     {
-        if (startTime.isAfter(endTime))
+        if (startTime.isAfter(endTime) || startTime.equals(endTime))
             throw new DateTimeException("Start time should be earlier than end time");
         if (startTime.getMinute()%15 != 0)
             throw new DateTimeException("Number of minutes should be a multiple of 15");
@@ -84,7 +84,7 @@ public class Restaurant implements IRestaurant
 
     public void setEndTime(LocalTime endTime) throws DateTimeException
     {
-        if (endTime.isBefore(startTime))
+        if (endTime.isBefore(startTime) || endTime.equals(startTime))
             throw new DateTimeException("End time should be later than start time");
         if (endTime.getMinute()%15 != 0)
             throw new DateTimeException("Number of minutes should be a multiple of 15");

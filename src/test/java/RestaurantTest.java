@@ -167,7 +167,7 @@ class RestaurantAddressTest
     }
 }
 
-class RestaurantStartTimeTest
+class RestaurantTimeTest
 {
     private Restaurant restaurant;
 
@@ -188,24 +188,11 @@ class RestaurantStartTimeTest
     }
 
     @ParameterizedTest
-    @CsvSource({"10,12","-13,30","14,-15","14,51","15,01","19,4","20,3","21,00","24,5"})
+    @CsvSource({"10,12","-13,30","14,-15","14,51","15,01","19,4","20,3","21,00","24,5","20,00"})
     public void incorrectStartTimeTest(int hour, int minute)
     {
         assertThrows(DateTimeException.class, ()-> restaurant.setStartTime(LocalTime.of(hour, minute)));
 
-    }
-}
-
-class RestaurantEndTimeTest
-{
-    private Restaurant restaurant;
-
-    @BeforeEach
-    public void setUp()
-    {
-        LocalTime startTime = LocalTime.of(10,0);
-        LocalTime endTime = LocalTime.of(20,0);
-        restaurant = new Restaurant("Sphinx", "Sopot Ul. Matejki 99",startTime,endTime);
     }
 
     @ParameterizedTest
@@ -217,7 +204,7 @@ class RestaurantEndTimeTest
     }
 
     @ParameterizedTest
-    @CsvSource({"10,12","15,01","20,3","9,4","24,5","9,51","8,00","-13,30","17,-15"})
+    @CsvSource({"10,12","15,01","20,3","9,4","24,5","9,51","8,00","-13,30","17,-15","10,00"})
     public void incorrectEndTimeTest(int hour, int minute)
     {
         assertThrows( DateTimeException.class, ()-> restaurant.setEndTime(LocalTime.of(hour, minute)));
