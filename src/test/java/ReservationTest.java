@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import sun.tools.jconsole.Tab;
 
 import java.time.DateTimeException;
@@ -263,7 +264,42 @@ class ReservationTimeTest
 
 class ReservationSeatsTest
 {
+    private Restaurant restaurant;
+    private User user;
 
+    @BeforeEach
+    public void setUp()
+    {
+        LocalTime rStartTime = LocalTime.of(10,0);
+        LocalTime rEndTime = LocalTime.of(20,0);
+        restaurant = new Restaurant("Stacja","Gdańsk Al. Grunwaldzka 111",rStartTime,rEndTime);
+        user = new User("Jan Kowalski" , "jkowalski@gmail.com","123-543-678",restaurant);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1,1","10,15","3,3","1,2"})
+    public void correctSeatsNumberTest(int wantedSeats, int tableSeats)
+    {
+        Table table = new Table("stolik",tableSeats,restaurant);
+        LocalTime startTime = LocalTime.of(14,0);
+        LocalTime endTime = LocalTime.of(16,0);
+        Reservation reservation = new Reservation(wantedSeats,startTime,endTime, LocalDate.now().plusDays(5),user,table);
+
+        assertThat(reservation).isNotNull().hasFieldOrPropertyWithValue("wantedSeats",wantedSeats);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"0,3","16,15","3325,5","-5,8"})
+    public void incorrectSeatsNumberTest(int wantedSeats, int tableSeats)
+    {
+        Table table = new Table("stolik",tableSeats,restaurant);
+        LocalTime startTime = LocalTime.of(14,0);
+        LocalTime endTime = LocalTime.of(16,0);
+
+        assertThatExceptionOfType(DateTimeException.class).isThrownBy(()-> {
+            Reservation reservation = new Reservation(wantedSeats,startTime,endTime, LocalDate.now().plusDays(5),user,table);
+        });
+    }
 }
 
 class ReservationDateTest
@@ -275,5 +311,3 @@ class ReservationEmailConfirmationTest
 {
 
 }
-
-class R
