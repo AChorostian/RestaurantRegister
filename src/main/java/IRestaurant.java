@@ -17,9 +17,7 @@ public interface IRestaurant
     void setEndTime(LocalTime endTime);
 
     void addTable(ITable table);
-    void deleteTable(ITable table);
     void addUser(IUser user);
-    void deleteUser(IUser user);
 
     void loadDatabaseFromCSV();
     void saveDatabaseToCSV();

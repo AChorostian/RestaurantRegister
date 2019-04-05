@@ -11,6 +11,5 @@ public interface ITable
     void setName(String name);
     void setSeats(int seats);
     void addReservation(IReservation reservation);
-    void deleteReservation(IReservation reservation);
 }
 

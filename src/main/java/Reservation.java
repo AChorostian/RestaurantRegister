@@ -80,11 +80,13 @@ public class Reservation implements IReservation
     public void setUser(IUser user)
     {
         //todo: exceptions
+        // musi usunąć link w aktualnym userze
     }
 
     public void setTable(ITable table)
     {
         //todo: exceptions
+        // musi usunąć link w aktualnym userze
     }
 
     public void sendEmailConfirmation()

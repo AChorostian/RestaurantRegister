@@ -98,34 +98,28 @@ public class Restaurant implements IRestaurant
         tables.add(table);
     }
 
-    public void deleteTable(ITable table)
-    {
-        // todo: exceptions
-        // should also remove table object and all connected reservations
-        tables.remove(table);
-    }
-
     public void addUser(IUser user)
     {
         // todo: exceptions
         users.add(user);
     }
 
-    public void deleteUser(IUser user)
-    {
-        // todo: exceptions
-        // should also remove user object and all connected reservations
-        users.remove(user);
-    }
-
     public void loadDatabaseFromCSV()
     {
         // todo
+        // baza jest wczytywana z trzech plików csv rest(id)users , rest(id)tables , rest(id)reservations
+        // może być tylko część tych plików, ale jeśli są rezerwacje, to muszą istnieć users i tables
+        // baza musi być pusta.
     }
 
     public void saveDatabaseToCSV()
     {
         // todo
+        // baza jest zapisywana do trzech plików csv
+        // rest(id)users ,
+        // rest(id)tables ,
+        // rest(id)reservations
+        // pod warunkiem, że istnieją dane (w każdym z osobna)
     }
 
     public void avgReservationsPerMonth()

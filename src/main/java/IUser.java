@@ -14,6 +14,5 @@ public interface IUser
     void setPhone(String phone);
 
     void addReservation(IReservation reservation);
-    void deleteReservation(IReservation reservation);
 }
 

@@ -67,7 +67,7 @@ class NewRestaurantTest
     @Test
     public void usersTest()
     {
-        assertThat(restaurant.getTables(),allOf(isA(List.class),hasSize(0)));
+        assertThat(restaurant.getUsers(),allOf(isA(List.class),hasSize(0)));
     }
 }
 
@@ -194,7 +194,6 @@ class RestaurantStartTimeTest
         assertThrows(DateTimeException.class, ()-> restaurant.setStartTime(LocalTime.of(hour, minute)));
 
     }
-
 }
 
 class RestaurantEndTimeTest
@@ -223,7 +222,74 @@ class RestaurantEndTimeTest
     {
         assertThrows( DateTimeException.class, ()-> restaurant.setEndTime(LocalTime.of(hour, minute)));
     }
-
 }
 
+class RestaurantRelationsTest
+{
+    private Restaurant restaurant;
 
+    @BeforeEach
+    public void setUp()
+    {
+        LocalTime startTime = LocalTime.of(10,0);
+        LocalTime endTime = LocalTime.of(20,0);
+        restaurant = new Restaurant("Sphinx", "Sopot Ul. Matejki 99",startTime,endTime);
+    }
+
+    @Test
+    public void AddingUsersToListTest()
+    {
+        int beforeAdding = restaurant.getUsers().size();
+        User user = new User("Jan Kowalski" , "jkowalski@gmail.com","123-543-678",restaurant);
+        int afterAdding = restaurant.getUsers().size();
+        assertAll(
+                ()-> assertThat(beforeAdding,equalTo(afterAdding-1)),
+                ()-> assertThat(user.getRestaurant(),equalTo(restaurant)),
+                ()-> assertThat(restaurant.getUsers(),hasItems(hasProperty("restaurant", equalTo(restaurant))))
+        );
+    }
+
+    @Test
+    public void AddingDuplicatedDataUsersToListTest()
+    {
+        User.resetIdCounter();
+        int beforeAdding = restaurant.getUsers().size();
+        User user1 = new User("Jan Kowalski" , "jkowalski@gmail.com","123-543-678",restaurant);
+        User user2 = new User("Jan Kowalski" , "jkowalski@gmail.com","123-543-678",restaurant);
+        int afterAdding = restaurant.getUsers().size();
+
+        assertAll(
+                ()-> assertThat(beforeAdding,equalTo(afterAdding-2)),
+                ()-> assertThat(user1.getId(),not(equalTo(user2.getId())))
+        );
+    }
+
+    @Test
+    public void AddingTablesToListTest()
+    {
+        int beforeAdding = restaurant.getTables().size();
+        Table table = new Table("stolik nr1",5);
+        int afterAdding = restaurant.getTables().size();
+        assertAll(
+                ()-> assertThat(beforeAdding,equalTo(afterAdding-1)),
+                ()-> assertThat(table.getRestaurant(),equalTo(restaurant)),
+                ()-> assertThat(restaurant.getTables(),hasItems(hasProperty("restaurant", equalTo(restaurant))))
+        );
+    }
+
+    @Test
+    public void AddingDuplicatedDataTablesToListTest()
+    {
+        Table.resetIdCounter();
+        int beforeAdding = restaurant.getTables().size();
+        Table table1 = new Table("stolik nr1",5);
+        Table table2 = new Table("stolik nr2",7);
+        int afterAdding = restaurant.getTables().size();
+
+        assertAll(
+                ()-> assertThat(beforeAdding,equalTo(afterAdding-2)),
+                ()-> assertThat(table1.getId(),not(equalTo(table2.getId())))
+        );
+    }
+
+}

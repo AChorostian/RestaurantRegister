@@ -62,10 +62,4 @@ public class Table implements ITable
         // todo: exceptions
         reservations.add(reservation);
     }
-
-    public void deleteReservation(IReservation reservation)
-    {
-        // todo: exceptions
-        reservations.remove(reservation);
-    }
 }

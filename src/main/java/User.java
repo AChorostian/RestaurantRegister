@@ -84,10 +84,4 @@ public class User implements IUser
         // todo: exceptions
         reservations.add(reservation);
     }
-
-    public void deleteReservation(IReservation reservation)
-    {
-        // todo: exceptions
-        reservations.remove(reservation);
-    }
 }
