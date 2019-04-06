@@ -1,5 +1,6 @@
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -231,7 +233,32 @@ class UserPhoneTest
 
 class UserRelationsTest
 {
-    // todo: check creating reservations
+    private Table table;
+    private User user;
+
+    @BeforeEach
+    void setUp()
+    {
+        LocalTime rStartTime = LocalTime.of(10,0);
+        LocalTime rEndTime = LocalTime.of(20,0);
+        Restaurant restaurant = new Restaurant("Stacja","Gdańsk Al. Grunwaldzka 111",rStartTime,rEndTime);
+        user = new User("Jan Kowalski" , "jkowalski@gmail.com","123-543-678",restaurant);
+        table = new Table("nr. 5",5,restaurant);
+    }
+
+    @Test
+    void addingReservationsToList()
+    {
+        int beforeAdding = user.getReservations().size();
+        LocalTime startTime = LocalTime.of(14,0);
+        LocalTime endTime = LocalTime.of(16,0);
+        Reservation reservation = new Reservation(3,startTime,endTime, LocalDate.now().plusDays(5),user,table);
+        int afterAdding = user.getReservations().size();
+        assertAll(
+                ()-> assertThat(beforeAdding).isEqualTo(afterAdding-1),
+                ()-> assertThat(reservation.getTable()).isEqualTo(table)
+        );
+    }
 }
 
 

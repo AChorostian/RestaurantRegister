@@ -2,6 +2,11 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import java.util.*;
+import javax.mail.*;
+import javax.mail.internet.*;
+import javax.activation.*;
+
 public class Reservation implements IReservation
 {
     private int id;
@@ -9,6 +14,7 @@ public class Reservation implements IReservation
     private LocalTime startTime;
     private LocalTime endTime;
     private LocalDate date;
+    private int confirmationCode;
 
     private IUser user;
     private ITable table;
@@ -28,6 +34,8 @@ public class Reservation implements IReservation
         this.id = idCounter++;
         table.addReservation(this);
         user.addReservation(this);
+
+        confirmationCode = this.hashCode();
     }
 
     public int getId()
@@ -152,9 +160,26 @@ public class Reservation implements IReservation
         this.date = date;
     }
 
-    public void sendEmailConfirmation()
+    public int getConfirmationCode()
     {
-        //todo: exceptions
-        //todo: email sending functionality
+        return confirmationCode;
+    }
+
+    public void sendEmailConfirmation() throws MessagingException
+    {
+        String to = "confirmations@"+user.getRestaurant().getName()+".com";
+        String from = user.getEMail();
+        String host = "localhost";
+
+        Properties properties = System.getProperties();
+        properties.setProperty("mail.smtp.host", host);
+        Session session = Session.getDefaultInstance(properties);
+
+        MimeMessage message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(from));
+        message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));
+        message.setSubject("Confirmation");
+        message.setText("Hello "+user.getFullName()+", your confirmation code is: "+getConfirmationCode());
+        Transport.send(message);
     }
 }

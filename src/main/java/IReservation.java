@@ -14,7 +14,4 @@ public interface IReservation
     void setStartTime(LocalTime startTime);
     void setEndTime(LocalTime endTime);
     void setDate(LocalDate date);
-
-
-    void sendEmailConfirmation();
 }

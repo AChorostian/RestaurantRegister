@@ -1,12 +1,19 @@
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.junit.jupiter.api.Assertions.*;
+
+import com.icegreen.greenmail.util.GreenMail;
+import com.icegreen.greenmail.util.GreenMailUtil;
+import com.icegreen.greenmail.util.ServerSetupTest;
+
+import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import javax.mail.MessagingException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -382,33 +389,21 @@ class ReservationDateTest
     }
 }
 
-class ReservationEmailConfirmationTest
+class GeneratingConfirmationTest
 {
-    private Reservation reservation;
 
-    @BeforeEach
-    void setUp()
+    @Test
+    void generatingConfirmationCodeTest()
     {
         LocalTime rStartTime = LocalTime.of(10,0);
         LocalTime rEndTime = LocalTime.of(20,0);
         Restaurant restaurant = new Restaurant("Stacja","Gdańsk Al. Grunwaldzka 111",rStartTime,rEndTime);
         User user = new User("Jan Kowalski" , "jkowalski@gmail.com","123-543-678",restaurant);
         Table table = new Table("nr. 5",5,restaurant);
-
         LocalTime startTime = LocalTime.of(14,0);
         LocalTime endTime = LocalTime.of(16,0);
-        reservation = new Reservation(3,startTime,endTime, LocalDate.now().plusDays(5),user,table);
+        Reservation reservation = new Reservation(3,startTime,endTime, LocalDate.now().plusDays(5),user,table);
+        assertThat(reservation.getConfirmationCode()).isEqualTo(reservation.hashCode());
     }
 
-    @Test
-    void generatingConfirmationCodeTest()
-    {
-
-    }
-
-    @Test
-    void sendingEmailTest()
-    {
-
-    }
 }
