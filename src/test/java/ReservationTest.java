@@ -1,15 +1,11 @@
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
-import sun.tools.jconsole.Tab;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -22,7 +18,7 @@ class NewReservationTest
     private Reservation reservation;
 
     @BeforeEach
-    public void setUp()
+    void setUp()
     {
         LocalTime rStartTime = LocalTime.of(10,0);
         LocalTime rEndTime = LocalTime.of(20,0);
@@ -36,43 +32,43 @@ class NewReservationTest
     }
 
     @Test
-    public void classTest()
+    void classTest()
     {
         assertThat(reservation).isInstanceOf(Reservation.class);
     }
 
     @Test
-    public void seatsTest()
+    void seatsTest()
     {
         assertThat(reservation.getSeats()).isEqualTo(3);
     }
 
     @Test
-    public void dateTest()
+    void dateTest()
     {
         assertThat(reservation.getDate()).isEqualTo(LocalDate.now().plusDays(5));
     }
 
     @Test
-    public void startTimeTest()
+    void startTimeTest()
     {
         assertThat(reservation.getStartTime()).isEqualTo(LocalTime.of(14,0));
     }
 
     @Test
-    public void endTimeTest()
+    void endTimeTest()
     {
         assertThat(reservation.getEndTime()).isEqualTo(LocalTime.of(16,0));
     }
 
     @Test
-    public void userTest()
+    void userTest()
     {
         assertThat(reservation.getUser()).isNotNull();
     }
 
     @Test
-    public void tableTest()
+    void tableTest()
     {
         assertThat(reservation.getTable()).isNotNull();
     }
@@ -84,7 +80,7 @@ class ReservationIdTest
     private static int beforeIdCounter;
 
     @BeforeAll
-    public static void setUp()
+    static void setUp()
     {
         LocalTime rStartTime = LocalTime.of(10,0);
         LocalTime rEndTime = LocalTime.of(20,0);
@@ -104,25 +100,25 @@ class ReservationIdTest
     }
 
     @Test
-    public void changingIdCounterTest()
+    void changingIdCounterTest()
     {
         assertThat(Reservation.getIdCounter()).isEqualTo(beforeIdCounter+4);
     }
 
     @Test
-    public void positiveNumberIdTest()
+    void positiveNumberIdTest()
     {
         assertThat(reservations).allMatch(u -> u.getId() >= 0 );
     }
 
     @Test
-    public void increasingIdTest()
+    void increasingIdTest()
     {
         assertThat(reservations).extracting(IReservation::getId).containsOnly(0,1,2,3);
     }
 
     @Test
-    public void incrementOrderIdTest()
+    void incrementOrderIdTest()
     {
         assertThat(reservations).extracting(IReservation::getId).containsExactly(0,1,2,3);
     }
@@ -135,7 +131,7 @@ class ReservationTimeTest
     private Table table;
 
     @BeforeEach
-    public void setUp()
+    void setUp()
     {
         LocalTime rStartTime = LocalTime.of(10,0);
         LocalTime rEndTime = LocalTime.of(20,0);
@@ -150,7 +146,7 @@ class ReservationTimeTest
 
     @ParameterizedTest
     @CsvSource({"10,15,19,45","15,00,15,15","19,45,20,00","10,00,20,00"})
-    public void correctReservingTimeInOpenHoursTest(int startHour, int startMinute, int endHour, int endMinute)
+    void correctReservingTimeInOpenHoursTest(int startHour, int startMinute, int endHour, int endMinute)
     {
         LocalTime startTime = LocalTime.of(startHour,startMinute);
         LocalTime endTime = LocalTime.of(endHour,endMinute);
@@ -164,7 +160,7 @@ class ReservationTimeTest
 
     @ParameterizedTest
     @CsvSource({"13,11,19,45","15,0,15,19","12,30,10,00"})
-    public void incorrectTimeFormatTest(int startHour, int startMinute, int endHour, int endMinute)
+    void incorrectTimeFormatTest(int startHour, int startMinute, int endHour, int endMinute)
     {
         assertThatExceptionOfType(DateTimeException.class).isThrownBy(()-> {
             reservation.setStartTime(LocalTime.of(startHour,startMinute));
@@ -174,7 +170,7 @@ class ReservationTimeTest
 
     @ParameterizedTest
     @CsvSource({"9,15,19,45","15,00,21,15","19,45,21,00","0,00,23,00"})
-    public void incorrectReservingTimeInOpenHoursTest(int startHour, int startMinute, int endHour, int endMinute)
+    void incorrectReservingTimeInOpenHoursTest(int startHour, int startMinute, int endHour, int endMinute)
     {
         assertThatExceptionOfType(DateTimeException.class).isThrownBy(()-> {
             reservation.setStartTime(LocalTime.of(startHour,startMinute));
@@ -183,83 +179,83 @@ class ReservationTimeTest
     }
 
     @Test
-    public void duplicateReservationTimeTest()
+    void duplicateReservationTimeTest()
     {
         LocalTime startTime = LocalTime.of(14,0);
         LocalTime endTime = LocalTime.of(16,0);
 
         assertThatExceptionOfType(DateTimeException.class).isThrownBy(()-> {
-            Reservation duplicateReservation = new Reservation(3,startTime,endTime, LocalDate.now().plusDays(5),user,table);
+            new Reservation(3,startTime,endTime, LocalDate.now().plusDays(5),user,table);
         } );
     }
 
     @Test
-    public void overlapAfterReservationTimeTest()
+    void overlapAfterReservationTimeTest()
     {
         LocalTime startTime = LocalTime.of(15,0);
         LocalTime endTime = LocalTime.of(17,0);
         assertThatExceptionOfType(DateTimeException.class).isThrownBy(()-> {
-            Reservation duplicateReservation = new Reservation(3,startTime,endTime, LocalDate.now().plusDays(5),user,table);
+            new Reservation(3,startTime,endTime, LocalDate.now().plusDays(5),user,table);
         } );
     }
 
     @Test
-    public void overlapBeforeReservationTimeTest()
+    void overlapBeforeReservationTimeTest()
     {
         LocalTime startTime = LocalTime.of(13,0);
         LocalTime endTime = LocalTime.of(15,0);
         assertThatExceptionOfType(DateTimeException.class).isThrownBy(()-> {
-            Reservation duplicateReservation = new Reservation(3,startTime,endTime, LocalDate.now().plusDays(5),user,table);
+            new Reservation(3,startTime,endTime, LocalDate.now().plusDays(5),user,table);
         } );
     }
 
     @Test
-    public void containingReservationTimeTest()
+    void containingReservationTimeTest()
     {
         LocalTime startTime = LocalTime.of(12,0);
         LocalTime endTime = LocalTime.of(18,0);
         assertThatExceptionOfType(DateTimeException.class).isThrownBy(()-> {
-            Reservation duplicateReservation = new Reservation(3,startTime,endTime, LocalDate.now().plusDays(5),user,table);
+            new Reservation(3,startTime,endTime, LocalDate.now().plusDays(5),user,table);
         } );
     }
 
     @Test
-    public void concludedReservationTimeTest()
+    void concludedReservationTimeTest()
     {
         LocalTime startTime = LocalTime.of(14,30);
         LocalTime endTime = LocalTime.of(15,30);
         assertThatExceptionOfType(DateTimeException.class).isThrownBy(()-> {
-            Reservation duplicateReservation = new Reservation(3,startTime,endTime, LocalDate.now().plusDays(5),user,table);
+            new Reservation(3,startTime,endTime, LocalDate.now().plusDays(5),user,table);
         } );
     }
 
     @Test
-    public void stickedAfterReservationTimeTest()
+    void justAfterReservationTimeTest()
     {
         LocalTime startTime = LocalTime.of(16,0);
         LocalTime endTime = LocalTime.of(17,30);
         assertThatExceptionOfType(DateTimeException.class).isThrownBy(()-> {
-            Reservation duplicateReservation = new Reservation(3,startTime,endTime, LocalDate.now().plusDays(5),user,table);
+            new Reservation(3,startTime,endTime, LocalDate.now().plusDays(5),user,table);
         } );
     }
 
     @Test
-    public void stickedBeforeReservationTimeTest()
+    void justBeforeReservationTimeTest()
     {
         LocalTime startTime = LocalTime.of(12,0);
         LocalTime endTime = LocalTime.of(14,0);
         assertThatExceptionOfType(DateTimeException.class).isThrownBy(()-> {
-            Reservation duplicateReservation = new Reservation(3,startTime,endTime, LocalDate.now().plusDays(5),user,table);
+            new Reservation(3,startTime,endTime, LocalDate.now().plusDays(5),user,table);
         } );
     }
 
     @Test
-    public void ovarlapAndIncorrectOpenHoursReservationTimeTest()
+    void overlapAndIncorrectOpenHoursReservationTimeTest()
     {
         LocalTime startTime = LocalTime.of(8,0);
         LocalTime endTime = LocalTime.of(15,0);
         assertThatExceptionOfType(DateTimeException.class).isThrownBy(()-> {
-            Reservation duplicateReservation = new Reservation(3,startTime,endTime, LocalDate.now().plusDays(5),user,table);
+            new Reservation(3,startTime,endTime, LocalDate.now().plusDays(5),user,table);
         } );
     }
 }
@@ -270,7 +266,7 @@ class ReservationSeatsTest
     private User user;
 
     @BeforeEach
-    public void setUp()
+    void setUp()
     {
         LocalTime rStartTime = LocalTime.of(10,0);
         LocalTime rEndTime = LocalTime.of(20,0);
@@ -280,26 +276,25 @@ class ReservationSeatsTest
 
     @ParameterizedTest
     @CsvSource({"1,1","10,15","3,3","1,2"})
-    public void correctSeatsNumberTest(int wantedSeats, int tableSeats)
+    void correctSeatsNumberTest(int wantedSeats, int tableSeats)
     {
         Table table = new Table("stolik",tableSeats,restaurant);
         LocalTime startTime = LocalTime.of(14,0);
         LocalTime endTime = LocalTime.of(16,0);
         Reservation reservation = new Reservation(wantedSeats,startTime,endTime, LocalDate.now().plusDays(5),user,table);
-
         assertThat(reservation).isNotNull().hasFieldOrPropertyWithValue("seats",wantedSeats);
     }
 
     @ParameterizedTest
     @CsvSource({"0,3","16,15","3325,5","-5,8"})
-    public void incorrectSeatsNumberTest(int wantedSeats, int tableSeats)
+    void incorrectSeatsNumberTest(int wantedSeats, int tableSeats)
     {
         Table table = new Table("stolik",tableSeats,restaurant);
         LocalTime startTime = LocalTime.of(14,0);
         LocalTime endTime = LocalTime.of(16,0);
 
         assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(()-> {
-            Reservation reservation = new Reservation(wantedSeats,startTime,endTime, LocalDate.now().plusDays(5),user,table);
+            new Reservation(wantedSeats,startTime,endTime, LocalDate.now().plusDays(5),user,table);
         });
     }
 }
