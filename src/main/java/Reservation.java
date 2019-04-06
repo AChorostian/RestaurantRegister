@@ -19,11 +19,11 @@ public class Reservation implements IReservation
     {
         this.table = table;
         this.user = user;
+        setDate(date);
 
         setSeats(seats);
         setStartTime(startTime);
         setEndTime(endTime);
-        setDate(date);
 
         this.id = idCounter++;
         table.addReservation(this);
@@ -80,14 +80,15 @@ public class Reservation implements IReservation
 
         for (IReservation reservation : table.getReservations())
         {
-            if (startTime.isAfter(reservation.getStartTime()) && startTime.isBefore(reservation.getEndTime()))
-                throw new DateTimeException("Reservation can not start during other reservation");
-            if (startTime.equals(reservation.getStartTime()) || startTime.equals(reservation.getEndTime()))
-                throw new DateTimeException("Reservation can not start during other reservation");
-            if (endTime!=null)
-            {
-                if (reservation.getStartTime().isAfter(startTime) && reservation.getEndTime().isBefore(endTime))
-                    throw new DateTimeException("new reservation can not contain other reservation");
+            if (reservation.getDate().equals(this.getDate()) ) {
+                if (startTime.isAfter(reservation.getStartTime()) && startTime.isBefore(reservation.getEndTime()))
+                    throw new DateTimeException("Reservation can not start during other reservation");
+                if (startTime.equals(reservation.getStartTime()) || startTime.equals(reservation.getEndTime()))
+                    throw new DateTimeException("Reservation can not start during other reservation");
+                if (endTime != null) {
+                    if (reservation.getStartTime().isAfter(startTime) && reservation.getEndTime().isBefore(endTime))
+                        throw new DateTimeException("new reservation can not contain other reservation");
+                }
             }
         }
 
@@ -106,14 +107,17 @@ public class Reservation implements IReservation
 
         for (IReservation reservation : table.getReservations())
         {
-            if (endTime.isAfter(reservation.getStartTime()) && endTime.isBefore(reservation.getEndTime()))
-                throw new DateTimeException("Reservation can not end during other reservation");
-            if (endTime.equals(reservation.getStartTime()) || endTime.equals(reservation.getEndTime()))
-                throw new DateTimeException("Reservation can not end during other reservation");
-            if (startTime!=null)
+            if (reservation.getDate().equals(this.getDate()))
             {
-                if (reservation.getStartTime().isAfter(startTime) && reservation.getEndTime().isBefore(endTime))
-                throw new DateTimeException("new reservation can not contain other reservation");
+                if (endTime.isAfter(reservation.getStartTime()) && endTime.isBefore(reservation.getEndTime()))
+                    throw new DateTimeException("Reservation can not end during other reservation");
+                if (endTime.equals(reservation.getStartTime()) || endTime.equals(reservation.getEndTime()))
+                    throw new DateTimeException("Reservation can not end during other reservation");
+                if (startTime!=null)
+                {
+                    if (reservation.getStartTime().isAfter(startTime) && reservation.getEndTime().isBefore(endTime))
+                        throw new DateTimeException("new reservation can not contain other reservation");
+                }
             }
         }
 
