@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -145,5 +146,32 @@ class TableSeatsTest
 
 class TableRelationsTest
 {
-    // todo: check creating reservations
+    private Table table;
+    private User user;
+
+    @BeforeEach
+    void setUp()
+    {
+        LocalTime rStartTime = LocalTime.of(10,0);
+        LocalTime rEndTime = LocalTime.of(20,0);
+        Restaurant restaurant = new Restaurant("Stacja","Gdańsk Al. Grunwaldzka 111",rStartTime,rEndTime);
+        user = new User("Jan Kowalski" , "jkowalski@gmail.com","123-543-678",restaurant);
+        table = new Table("nr. 5",5,restaurant);
+    }
+
+    @Test
+    void addingReservationsToList()
+    {
+        int beforeAdding = table.getReservations().size();
+        LocalTime startTime = LocalTime.of(14,0);
+        LocalTime endTime = LocalTime.of(16,0);
+        Reservation reservation = new Reservation(3,startTime,endTime, LocalDate.now().plusDays(5),user,table);
+        int afterAdding = table.getReservations().size();
+        assertAll(
+                ()-> assertThat(beforeAdding,equalTo(afterAdding-1)),
+                ()-> assertThat(reservation.getTable(),equalTo(table)),
+                ()-> assertThat(table.getReservations(),hasItems(hasProperty("table", equalTo(table))))
+        );
+    }
+
 }
