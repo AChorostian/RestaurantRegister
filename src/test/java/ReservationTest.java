@@ -346,7 +346,7 @@ class ReservationDateTest
     }
 
     @Test
-    void SameTimeOtherDay()
+    void sameTimeOtherDayTest()
     {
         LocalTime startTime = LocalTime.of(14,0);
         LocalTime endTime = LocalTime.of(16,0);
@@ -361,7 +361,7 @@ class ReservationDateTest
     }
 
     @Test
-    void SameTimeSameDay()
+    void sameTimeSameDayTest()
     {
         LocalTime startTime = LocalTime.of(14,0);
         LocalTime endTime = LocalTime.of(16,0);
@@ -370,9 +370,45 @@ class ReservationDateTest
             new Reservation(3,startTime,endTime, LocalDate.now().plusDays(5),user,table);
         });
     }
+
+    @Test
+    void passedDayTest()
+    {
+        LocalTime startTime = LocalTime.of(14,0);
+        LocalTime endTime = LocalTime.of(16,0);
+        assertThatExceptionOfType(DateTimeException.class).isThrownBy(()-> {
+            new Reservation(3,startTime,endTime, LocalDate.now().minusDays(5),user,table);
+        });
+    }
 }
 
 class ReservationEmailConfirmationTest
 {
+    private Reservation reservation;
 
+    @BeforeEach
+    void setUp()
+    {
+        LocalTime rStartTime = LocalTime.of(10,0);
+        LocalTime rEndTime = LocalTime.of(20,0);
+        Restaurant restaurant = new Restaurant("Stacja","Gdańsk Al. Grunwaldzka 111",rStartTime,rEndTime);
+        User user = new User("Jan Kowalski" , "jkowalski@gmail.com","123-543-678",restaurant);
+        Table table = new Table("nr. 5",5,restaurant);
+
+        LocalTime startTime = LocalTime.of(14,0);
+        LocalTime endTime = LocalTime.of(16,0);
+        reservation = new Reservation(3,startTime,endTime, LocalDate.now().plusDays(5),user,table);
+    }
+
+    @Test
+    void generatingConfirmationCodeTest()
+    {
+
+    }
+
+    @Test
+    void sendingEmailTest()
+    {
+
+    }
 }

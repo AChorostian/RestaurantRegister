@@ -77,7 +77,6 @@ public class Reservation implements IReservation
             throw new DateTimeException("Number of minutes should be a multiple of 15");
         if (startTime.isBefore(this.table.getRestaurant().getStartTime()))
             throw new DateTimeException("Reservation can not start before restaurant opening");
-
         for (IReservation reservation : table.getReservations())
         {
             if (reservation.getDate().equals(this.getDate()) ) {
@@ -91,7 +90,6 @@ public class Reservation implements IReservation
                 }
             }
         }
-
         this.startTime = startTime;
     }
 
@@ -104,7 +102,6 @@ public class Reservation implements IReservation
             throw new DateTimeException("Number of minutes should be a multiple of 15");
         if (endTime.isAfter(this.table.getRestaurant().getEndTime()))
             throw new DateTimeException("Reservation can not end after restaurant closing");
-
         for (IReservation reservation : table.getReservations())
         {
             if (reservation.getDate().equals(this.getDate()))
@@ -120,13 +117,38 @@ public class Reservation implements IReservation
                 }
             }
         }
-
         this.endTime = endTime;
     }
 
     public void setDate(LocalDate date)
     {
-        //todo: exceptions
+        if(date.isBefore(LocalDate.now()))
+            throw new DateTimeException("Reservation can not be set as passed");
+        for (IReservation reservation : table.getReservations())
+        {
+            if (reservation.getDate().equals(date))
+            {
+                if (startTime!=null)
+                {
+                    if (startTime.isAfter(reservation.getStartTime()) && startTime.isBefore(reservation.getEndTime()))
+                        throw new DateTimeException("Reservation can not start during other reservation");
+                    if (startTime.equals(reservation.getStartTime()) || startTime.equals(reservation.getEndTime()))
+                        throw new DateTimeException("Reservation can not start during other reservation");
+                }
+                if (endTime!=null)
+                {
+                    if (endTime.isAfter(reservation.getStartTime()) && endTime.isBefore(reservation.getEndTime()))
+                        throw new DateTimeException("Reservation can not end during other reservation");
+                    if (endTime.equals(reservation.getStartTime()) || endTime.equals(reservation.getEndTime()))
+                        throw new DateTimeException("Reservation can not end during other reservation");
+                }
+                if (startTime != null && endTime != null)
+                {
+                    if (reservation.getStartTime().isAfter(startTime) && reservation.getEndTime().isBefore(endTime))
+                        throw new DateTimeException("new reservation can not contain other reservation");
+                }
+            }
+        }
         this.date = date;
     }
 
