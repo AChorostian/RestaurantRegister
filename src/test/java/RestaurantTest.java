@@ -432,7 +432,7 @@ class csvOperationsAndStatisticsTest
         new Reservation(3,startTime,endTime, LocalDate.now().plusDays(3),user,table);
         new Reservation(3,startTime,endTime, LocalDate.now().plusDays(1),user,table);
 
-        assertThat(restaurant.avgReservationsPerDay(),equalTo(4));
+        assertThat(restaurant.avgReservationsPerDay(),equalTo(1.0));
     }
 
     @Test

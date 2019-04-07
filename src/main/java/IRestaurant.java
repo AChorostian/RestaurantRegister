@@ -22,7 +22,7 @@ public interface IRestaurant
 
     void saveDatabaseToCSV() throws IOException;
 
-    int avgReservationsPerDay();
+    double avgReservationsPerDay();
     IUser bestClient();
-    int UselessClients();
+    int uselessClients();
 }

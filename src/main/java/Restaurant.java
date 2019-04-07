@@ -1,6 +1,7 @@
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -239,19 +240,58 @@ public class Restaurant implements IRestaurant
         csvWriter.close();
     }
 
-    public int avgReservationsPerDay()
+    public double avgReservationsPerDay()
     {
-        return 0;
+        LocalDate lastDay = LocalDate.now();
+        int reservationsNumber = 0;
+        for (IUser user : this.getUsers())
+        {
+            for (IReservation reservation : user.getReservations())
+            {
+                if (reservation.getDate().isAfter(lastDay))
+                    lastDay = reservation.getDate();
+                reservationsNumber++;
+            }
+        }
+        int days = (int)ChronoUnit.DAYS.between(LocalDate.now(), lastDay);
+
+        return (double)reservationsNumber/(double)days;
     }
 
     public IUser bestClient()
     {
+        if (users.size()!=0)
+        {
+            int bestSize = 0;
+            int bestId = 0;
+            for (IUser user : this.getUsers())
+            {
+                if (user.getReservations().size()>bestSize)
+                {
+                    bestId = user.getId();
+                    bestSize = user.getReservations().size();
+                }
+            }
+            return users.get(bestId);
+        }
+        else
         return null;
     }
 
     public int uselessClients()
     {
-        return 0;
+        if (users.size()!=0)
+        {
+            int useless=0;
+            for (IUser user : this.getUsers())
+            {
+                if (user.getReservations().size() == 0)
+                    useless++;
+            }
+            return useless;
+        }
+        else
+            return 0;
     }
 
 }
