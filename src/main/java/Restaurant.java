@@ -174,6 +174,8 @@ public class Restaurant implements IRestaurant
 
     public void saveDatabaseToCSV() throws IOException
     {
+        new File("csv").mkdirs();
+
         if (Reservation.getIdCounter() != 0)
         {
             Writer writer = Files.newBufferedWriter(Paths.get("csv/restaurant"+id+"reservations.csv"));
