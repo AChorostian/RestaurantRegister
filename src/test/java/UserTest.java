@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.time.LocalDate;
@@ -146,19 +147,7 @@ class UserEMailTest
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {
-            "email@domain.com",
-            "firstname.lastname@domain.com",
-            "email@subdomain.domain.com",
-            "firstname+lastname@domain.com",
-            "email@123.123.123.123",
-            "1234567890@domain.com",
-            "email@domain-one.com",
-            "_______@domain.com",
-            "email@domain.name",
-            "email@domain.co.jp",
-            "firstname-lastname@domain.com"
-    })
+    @CsvFileSource(resources = "correctEmails.csv")
     public void correctEMailTest(String eMail)
     {
         user.setEMail(eMail);
@@ -166,18 +155,7 @@ class UserEMailTest
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {
-            "plainaddress",
-            "#@%^%#$@#$@#.com",
-            "@domain.com",
-            "Joe Smith <email@domain.com>",
-            "email.domain.com",
-            "email@domain@domain.com",
-            ".email@domain.com",
-            "あいうえお@domain.com",
-            "email@domain.com (Joe Smith)",
-            "email@domain",
-    })
+    @CsvFileSource(resources = "incorrectEmails.csv")
     public void incorrectEMailTest(String eMail)
     {
         assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy( ()-> user.setEMail(eMail) );
