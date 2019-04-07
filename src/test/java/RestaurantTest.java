@@ -284,7 +284,7 @@ class RestaurantRelationsTest
 
 }
 
-class csvOperationsTest
+class csvOperationsAndStatisticsTest
 {
     private Restaurant restaurant;
     private String usersFile, tablesFile, reservationsFile, restaurantFile;
@@ -420,9 +420,51 @@ class csvOperationsTest
                 ()-> assertThat(restaurant.getUsers().toArray()[4],hasProperty("reservations",hasSize(1)))
         );
     }
+
+    @Test
+    void avgReservationsPerDayTest()
+    {
+        User user = new User("Jan Kowalski" , "jkowalski@gmail.com","123-543-678",restaurant);
+        Table table = new Table("nr. 5",5,restaurant);
+        LocalTime startTime = LocalTime.of(14,0);
+        LocalTime endTime = LocalTime.of(16,0);
+        new Reservation(3,startTime.plusHours(3),endTime.plusHours(3), LocalDate.now().plusDays(3),user,table);
+        new Reservation(3,startTime,endTime, LocalDate.now().plusDays(3),user,table);
+        new Reservation(3,startTime,endTime, LocalDate.now().plusDays(1),user,table);
+
+        assertThat(restaurant.avgReservationsPerDay(),equalTo(4));
+    }
+
+    @Test
+    void bestClientTest()
+    {
+        User user1 = new User("Jan Kowalski" , "jkowalski@gmail.com","123-543-678",restaurant);
+        User user2 = new User("Pieter" , "pieter@gmail.com","123-333-678",restaurant);
+        Table table = new Table("nr. 5",5,restaurant);
+        LocalTime startTime = LocalTime.of(14,0);
+        LocalTime endTime = LocalTime.of(16,0);
+        new Reservation(3,startTime.plusHours(3),endTime.plusHours(3), LocalDate.now().plusDays(3),user2,table);
+        new Reservation(3,startTime,endTime, LocalDate.now().plusDays(3),user2,table);
+        new Reservation(3,startTime,endTime, LocalDate.now().plusDays(1),user1,table);
+
+        assertThat(restaurant.bestClient(),equalTo(user2));
+    }
+
+    @Test
+    void uselessClientsTest()
+    {
+        User user1 = new User("Jan Kowalski" , "jkowalski@gmail.com","123-543-678",restaurant);
+        User user2 = new User("Pieter" , "pieter@gmail.com","123-333-678",restaurant);
+        new User("Tomasz Nowak" , "tnowak@gmail.com","+48386746251",restaurant);
+        new User("Katarzyna Nowak" , "knowak@gmail.com","+48 386 746 251",restaurant);
+        Table table = new Table("nr. 5",5,restaurant);
+        LocalTime startTime = LocalTime.of(14,0);
+        LocalTime endTime = LocalTime.of(16,0);
+        new Reservation(3,startTime.plusHours(3),endTime.plusHours(3), LocalDate.now().plusDays(3),user1,table);
+        new Reservation(3,startTime,endTime, LocalDate.now().plusDays(3),user2,table);
+        new Reservation(3,startTime,endTime, LocalDate.now().plusDays(1),user2,table);
+
+        assertThat(restaurant.uselessClients(),equalTo(2));
+    }
 }
 
-class RestaurantStatisticsTest
-{
-    // todo: test 5 methods
-}

@@ -239,28 +239,19 @@ public class Restaurant implements IRestaurant
         csvWriter.close();
     }
 
-    public void avgReservationsPerMonth()
+    public int avgReservationsPerDay()
     {
-        // todo
+        return 0;
     }
 
-    public void avgReservationsPerDay()
+    public IUser bestClient()
     {
-        // todo
+        return null;
     }
 
-    public void avgReservationsPerUser()
+    public int uselessClients()
     {
-        // todo
+        return 0;
     }
 
-    public void bestClient()
-    {
-        // todo
-    }
-
-    public void bestDayOfTheWeek()
-    {
-        // todo
-    }
 }
