@@ -5,7 +5,7 @@ Created by GitHub Classroom.
 
 ## Travis
 
-https://travis-ci.com/testowanieaplikacjijavaug/projekt1-AChorostian
+https://travis-ci.com/testowanieaplikacjijavaug/projekt1-AChorostian ![travis status](https://travis-ci.com/testowanieaplikacjijavaug/projekt1-AChorostian.svg?token=FsWgJEToSjz6xeFyedzi&branch=master)
 
 ## Subject (in Polish)
 
