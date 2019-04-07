@@ -1,4 +1,5 @@
 import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -117,10 +118,54 @@ public class Restaurant implements IRestaurant
     {
         Reader reader1 = Files.newBufferedReader(Paths.get("csv/restaurant"+id+".csv"));
         CSVReader csvReader1 = new CSVReader(reader1,';');
-        String[] line;
-        line = csvReader1.readNext();
+        String[] line1;
+        line1 = csvReader1.readNext();
+        Restaurant restaurant = new Restaurant(line1[1],line1[2],LocalTime.parse(line1[3]),LocalTime.parse(line1[4]));
+        csvReader1.close();
 
-        Restaurant restaurant = new Restaurant(line[1],line[2],LocalTime.parse(line[3]),LocalTime.parse(line[4]));
+        try ( Reader reader2 = Files.newBufferedReader(Paths.get("csv/restaurant"+id+"users.csv")) )
+        {
+            CSVReader csvReader2 = new CSVReader(reader2,';');
+            String[] line2;
+
+            while ((line2 = csvReader2.readNext()) != null)
+            {
+                new User(line2[2],line2[1],line2[3],restaurant);
+            }
+            csvReader2.close();
+        }
+        catch(IOException e){}
+
+        try {
+            Reader reader2 = Files.newBufferedReader(Paths.get("csv/restaurant"+id+"tables.csv"));
+            CSVReader csvReader2 = new CSVReader(reader2,';');
+            String[] line2;
+
+            while ((line2 = csvReader2.readNext()) != null)
+            {
+                new Table(line2[2],Integer.valueOf(line2[1]),restaurant);
+            }
+            csvReader2.close();
+        }
+        catch(IOException e){}
+
+        try {
+            Reader reader2 = Files.newBufferedReader(Paths.get("csv/restaurant"+id+"reservations.csv"));
+            CSVReader csvReader2 = new CSVReader(reader2,';');
+            String[] line2;
+
+            while ((line2 = csvReader2.readNext()) != null)
+            {
+                new Reservation(Integer.valueOf(line2[1]),
+                                LocalTime.parse(line2[4]),
+                                LocalTime.parse(line2[5]),
+                                LocalDate.parse(line2[6]),
+                                restaurant.getUsers().get(Integer.valueOf(line2[2])),
+                                restaurant.getTables().get(Integer.valueOf(line2[3])));
+            }
+            csvReader2.close();
+        }
+        catch(IOException e){}
 
 
         return restaurant;
