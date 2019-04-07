@@ -13,6 +13,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -286,33 +287,53 @@ class RestaurantRelationsTest
 class csvOperationsTest
 {
     private Restaurant restaurant;
-    String usersFile, tablesFile, reservationsFile, restaurantFile;
+    private String usersFile, tablesFile, reservationsFile, restaurantFile;
 
     @BeforeEach
     void setUp()
     {
+        clear();
         LocalTime startTime = LocalTime.of(10,0);
         LocalTime endTime = LocalTime.of(20,0);
         restaurant = new Restaurant("Sphinx", "Sopot Ul. Matejki 99",startTime,endTime);
-        usersFile = "restaurant"+restaurant.getId()+"users.csv";
-        tablesFile = "restaurant"+restaurant.getId()+"tables.csv";
-        reservationsFile = "restaurant"+restaurant.getId()+"reservations.csv";
-        restaurantFile = "restaurant"+restaurant.getId()+".csv";
+        usersFile = "csv/restaurant"+restaurant.getId()+"users.csv";
+        tablesFile = "csv/restaurant"+restaurant.getId()+"tables.csv";
+        reservationsFile = "csv/restaurant"+restaurant.getId()+"reservations.csv";
+        restaurantFile = "csv/restaurant"+restaurant.getId()+".csv";
+
     }
 
     private void addUsers(Restaurant restaurant)
     {
-        new User("Jan Kowalski" , "jkowalski@gmail.com","123-543-678",restaurant);
+        User user1 = new User("Jan Kowalski" , "jkowalski@gmail.com","123-543-678",restaurant);
         new User("Jan Nowak" , "jnowak@gmail.com","432623342",restaurant);
         new User("Tomasz Nowak" , "tnowak@gmail.com","+48386746251",restaurant);
         new User("Katarzyna Nowak" , "knowak@gmail.com","+48 386 746 251",restaurant);
     }
     private void addTables(Restaurant restaurant)
     {
-        new Table("nr. 1",5,restaurant);
+        Table table1 = new Table("nr. 1",5,restaurant);
         new Table("nr. 2",3,restaurant);
         new Table("nr. 3",7,restaurant);
         new Table("VIP",20,restaurant);
+    }
+
+    private void clear()
+    {
+        Restaurant.resetIdCounter();
+        User.resetIdCounter();
+        Table.resetIdCounter();
+        Reservation.resetIdCounter();
+
+        File dir = new File("csv");
+        File[] listFiles = dir.listFiles();
+        if (listFiles !=null)
+        {
+            for(File file : listFiles)
+            {
+                file.delete();
+            }
+        }
     }
 
     @Test
@@ -328,7 +349,7 @@ class csvOperationsTest
                 ()-> assertFalse(new File(reservationsFile).exists())
         );    }
     @Test
-    void saveToCsvTablesTest()
+    void saveToCsvTablesTest() throws IOException
     {
         addTables(restaurant);
         restaurant.saveDatabaseToCSV();
@@ -340,7 +361,7 @@ class csvOperationsTest
                 ()-> assertFalse(new File(reservationsFile).exists())
         );    }
     @Test
-    void saveToCsvUsersAndTablesTest()
+    void saveToCsvUsersAndTablesTest() throws IOException
     {
         addUsers(restaurant);
         addTables(restaurant);
@@ -354,10 +375,18 @@ class csvOperationsTest
         );
     }
     @Test
-    void saveToCsvAllTest()
+    void saveToCsvAllTest() throws IOException
     {
         addUsers(restaurant);
         addTables(restaurant);
+
+        User user = new User("Jan Kowalski" , "jkowalski@gmail.com","123-543-678",restaurant);
+        Table table = new Table("nr. 5",5,restaurant);
+
+        LocalTime startTime = LocalTime.of(14,0);
+        LocalTime endTime = LocalTime.of(16,0);
+        Reservation reservation = new Reservation(3,startTime,endTime, LocalDate.now().plusDays(5),user,table);
+
         restaurant.saveDatabaseToCSV();
 
         assertAll(

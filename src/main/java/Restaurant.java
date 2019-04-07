@@ -3,6 +3,12 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
+import java.io.*;
+import java.nio.file.*;
+import java.util.Arrays;
+
 public class Restaurant implements IRestaurant
 {
     private int id;
@@ -95,13 +101,11 @@ public class Restaurant implements IRestaurant
 
     public void addTable(ITable table)
     {
-        // todo: exceptions
         tables.add(table);
     }
 
     public void addUser(IUser user)
     {
-        // todo: exceptions
         users.add(user);
     }
 
@@ -113,14 +117,79 @@ public class Restaurant implements IRestaurant
         // baza musi być pusta.
     }
 
-    public void saveDatabaseToCSV()
+    public void saveDatabaseToCSV() throws IOException
     {
+        if (Reservation.getIdCounter() != 0)
+        {
+            Writer writer = Files.newBufferedWriter(Paths.get("csv/restaurant"+id+"reservations.csv"));
+            CSVWriter csvWriter = new CSVWriter(writer, ';', CSVWriter.NO_QUOTE_CHARACTER);
+            String[] line = new String[7];
+
+            for (IUser user : this.getUsers())
+            {
+                for (IReservation reservation : user.getReservations())
+                {
+                    line[0] = String.valueOf(reservation.getId());
+                    line[1] = String.valueOf(reservation.getSeats());
+                    line[2] = String.valueOf(reservation.getUser().getId());
+                    line[3] = String.valueOf(reservation.getTable().getId());
+                    line[4] = String.valueOf(reservation.getStartTime());
+                    line[5] = String.valueOf(reservation.getEndTime());
+                    line[6] = String.valueOf(reservation.getDate());
+                    csvWriter.writeNext(line);
+                }
+            }
+            csvWriter.close();
+        }
+        if (User.getIdCounter() != 0)
+        {
+            Writer writer = Files.newBufferedWriter(Paths.get("csv/restaurant"+id+"users.csv"));
+            CSVWriter csvWriter = new CSVWriter(writer, ';', CSVWriter.NO_QUOTE_CHARACTER);
+            String[] line = new String[4];
+
+            for (IUser user : this.getUsers())
+            {
+                line[0] = String.valueOf(user.getId());
+                line[1] = String.valueOf(user.getEMail());
+                line[2] = String.valueOf(user.getFullName());
+                line[3] = String.valueOf(user.getPhone());
+                csvWriter.writeNext(line);
+            }
+            csvWriter.close();
+        }
+        if (Table.getIdCounter() != 0)
+        {
+            Writer writer = Files.newBufferedWriter(Paths.get("csv/restaurant"+id+"tables.csv"));
+            CSVWriter csvWriter = new CSVWriter(writer, ';', CSVWriter.NO_QUOTE_CHARACTER);
+            String[] line = new String[3];
+
+            for (ITable table : this.getTables())
+            {
+                line[0] = String.valueOf(table.getId());
+                line[1] = String.valueOf(table.getSeats());
+                line[2] = String.valueOf(table.getName());
+                csvWriter.writeNext(line);
+            }
+            csvWriter.close();
+        }
+        Writer writer = Files.newBufferedWriter(Paths.get("csv/restaurant"+id+".csv"));
+        CSVWriter csvWriter = new CSVWriter(writer, ';', CSVWriter.NO_QUOTE_CHARACTER);
+        String[] line = new String[5];
+
+        line[0] = String.valueOf(this.id);
+        line[1] = String.valueOf(this.name);
+        line[2] = String.valueOf(this.address);
+        line[3] = String.valueOf(this.startTime);
+        line[4] = String.valueOf(this.endTime);
+        csvWriter.writeNext(line);
+        csvWriter.close();
+
         // todo
-        // baza jest zapisywana do trzech plików csv
-        // rest(id)users ,
-        // rest(id)tables ,
-        // rest(id)reservations
-        // pod warunkiem, że istnieją dane (w każdym z osobna)
+        //        // baza jest zapisywana do trzech plików csv
+        //        // rest(id)users ,
+        //        // rest(id)tables ,
+        //        // rest(id)reservations
+        //        // pod warunkiem, że istnieją dane (w każdym z osobna)
     }
 
     public void avgReservationsPerMonth()

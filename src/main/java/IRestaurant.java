@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -19,8 +20,8 @@ public interface IRestaurant
     void addTable(ITable table);
     void addUser(IUser user);
 
-    void loadDatabaseFromCSV();
-    void saveDatabaseToCSV();
+    void loadDatabaseFromCSV() throws IOException;
+    void saveDatabaseToCSV() throws IOException;
 
     void avgReservationsPerMonth();
     void avgReservationsPerDay();
