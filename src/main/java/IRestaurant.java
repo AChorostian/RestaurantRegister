@@ -20,7 +20,6 @@ public interface IRestaurant
     void addTable(ITable table);
     void addUser(IUser user);
 
-    void loadDatabaseFromCSV() throws IOException;
     void saveDatabaseToCSV() throws IOException;
 
     void avgReservationsPerMonth();

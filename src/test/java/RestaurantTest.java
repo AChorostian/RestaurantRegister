@@ -396,6 +396,30 @@ class csvOperationsTest
                 ()-> assertTrue(new File(reservationsFile).exists())
         );
     }
+
+    @Test
+    void loadAllFromCsvTest() throws IOException
+    {
+        addUsers(restaurant);
+        addTables(restaurant);
+        User user = new User("Jan Kowalski" , "jkowalski@gmail.com","123-543-678",restaurant);
+        Table table = new Table("nr. 5",5,restaurant);
+        LocalTime startTime = LocalTime.of(14,0);
+        LocalTime endTime = LocalTime.of(16,0);
+        new Reservation(3,startTime,endTime, LocalDate.now().plusDays(5),user,table);
+
+        restaurant.saveDatabaseToCSV();
+        int savedId = restaurant.getId();
+        restaurant = null;
+        restaurant = Restaurant.loadDatabaseFromCSV(savedId);
+
+        assertAll(
+                ()-> assertThat(restaurant,notNullValue()),
+                ()-> assertThat(restaurant.getUsers(),hasSize(5)),
+                ()-> assertThat(restaurant.getTables(),hasSize(5)),
+                ()-> assertThat(restaurant.getUsers().toArray()[4],hasProperty("reservations",hasSize(1)))
+        );
+    }
 }
 
 class RestaurantStatisticsTest

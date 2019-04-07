@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+import javafx.util.converter.LocalTimeStringConverter;
+
 import java.io.*;
 import java.nio.file.*;
 import java.util.Arrays;
@@ -21,6 +23,8 @@ public class Restaurant implements IRestaurant
     private List<IUser> users;
 
     private static int idCounter=1;
+
+
 
     public Restaurant(String name, String address, LocalTime startTime, LocalTime endTime)
     {
@@ -109,12 +113,17 @@ public class Restaurant implements IRestaurant
         users.add(user);
     }
 
-    public void loadDatabaseFromCSV()
+    public static Restaurant loadDatabaseFromCSV(int id) throws IOException
     {
-        // todo
-        // baza jest wczytywana z trzech plików csv rest(id)users , rest(id)tables , rest(id)reservations
-        // może być tylko część tych plików, ale jeśli są rezerwacje, to muszą istnieć users i tables
-        // baza musi być pusta.
+        Reader reader1 = Files.newBufferedReader(Paths.get("csv/restaurant"+id+".csv"));
+        CSVReader csvReader1 = new CSVReader(reader1,';');
+        String[] line;
+        line = csvReader1.readNext();
+
+        Restaurant restaurant = new Restaurant(line[1],line[2],LocalTime.parse(line[3]),LocalTime.parse(line[4]));
+
+
+        return restaurant;
     }
 
     public void saveDatabaseToCSV() throws IOException
@@ -183,13 +192,6 @@ public class Restaurant implements IRestaurant
         line[4] = String.valueOf(this.endTime);
         csvWriter.writeNext(line);
         csvWriter.close();
-
-        // todo
-        //        // baza jest zapisywana do trzech plików csv
-        //        // rest(id)users ,
-        //        // rest(id)tables ,
-        //        // rest(id)reservations
-        //        // pod warunkiem, że istnieją dane (w każdym z osobna)
     }
 
     public void avgReservationsPerMonth()
