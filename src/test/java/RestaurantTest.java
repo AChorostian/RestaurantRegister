@@ -2,6 +2,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import java.io.File;
+import java.io.IOException;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -283,7 +285,88 @@ class RestaurantRelationsTest
 
 class csvOperationsTest
 {
-    // todo: test load, save
+    private Restaurant restaurant;
+    String usersFile, tablesFile, reservationsFile, restaurantFile;
+
+    @BeforeEach
+    void setUp()
+    {
+        LocalTime startTime = LocalTime.of(10,0);
+        LocalTime endTime = LocalTime.of(20,0);
+        restaurant = new Restaurant("Sphinx", "Sopot Ul. Matejki 99",startTime,endTime);
+        usersFile = "restaurant"+restaurant.getId()+"users.csv";
+        tablesFile = "restaurant"+restaurant.getId()+"tables.csv";
+        reservationsFile = "restaurant"+restaurant.getId()+"reservations.csv";
+        restaurantFile = "restaurant"+restaurant.getId()+".csv";
+    }
+
+    private void addUsers(Restaurant restaurant)
+    {
+        new User("Jan Kowalski" , "jkowalski@gmail.com","123-543-678",restaurant);
+        new User("Jan Nowak" , "jnowak@gmail.com","432623342",restaurant);
+        new User("Tomasz Nowak" , "tnowak@gmail.com","+48386746251",restaurant);
+        new User("Katarzyna Nowak" , "knowak@gmail.com","+48 386 746 251",restaurant);
+    }
+    private void addTables(Restaurant restaurant)
+    {
+        new Table("nr. 1",5,restaurant);
+        new Table("nr. 2",3,restaurant);
+        new Table("nr. 3",7,restaurant);
+        new Table("VIP",20,restaurant);
+    }
+
+    @Test
+    void saveToCsvUsersTest() throws IOException
+    {
+        addUsers(restaurant);
+        restaurant.saveDatabaseToCSV();
+
+        assertAll(
+                ()-> assertTrue(new File(restaurantFile).exists()),
+                ()-> assertTrue(new File(usersFile).exists()),
+                ()-> assertFalse(new File(tablesFile).exists()),
+                ()-> assertFalse(new File(reservationsFile).exists())
+        );    }
+    @Test
+    void saveToCsvTablesTest()
+    {
+        addTables(restaurant);
+        restaurant.saveDatabaseToCSV();
+
+        assertAll(
+                ()-> assertTrue(new File(restaurantFile).exists()),
+                ()-> assertFalse(new File(usersFile).exists()),
+                ()-> assertTrue(new File(tablesFile).exists()),
+                ()-> assertFalse(new File(reservationsFile).exists())
+        );    }
+    @Test
+    void saveToCsvUsersAndTablesTest()
+    {
+        addUsers(restaurant);
+        addTables(restaurant);
+        restaurant.saveDatabaseToCSV();
+
+        assertAll(
+                ()-> assertTrue(new File(restaurantFile).exists()),
+                ()-> assertTrue(new File(usersFile).exists()),
+                ()-> assertTrue(new File(tablesFile).exists()),
+                ()-> assertFalse(new File(reservationsFile).exists())
+        );
+    }
+    @Test
+    void saveToCsvAllTest()
+    {
+        addUsers(restaurant);
+        addTables(restaurant);
+        restaurant.saveDatabaseToCSV();
+
+        assertAll(
+                ()-> assertTrue(new File(restaurantFile).exists()),
+                ()-> assertTrue(new File(usersFile).exists()),
+                ()-> assertTrue(new File(tablesFile).exists()),
+                ()-> assertTrue(new File(reservationsFile).exists())
+        );
+    }
 }
 
 class RestaurantStatisticsTest
