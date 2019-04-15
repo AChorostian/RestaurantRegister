@@ -1,6 +1,7 @@
 # Restaurant Register
 
 Project for Java testing classes at the University of Gdansk.
+Contains JUnit5 tests with AssertJ and Hamcrest.
 Created by GitHub Classroom.
 
 ## Travis
